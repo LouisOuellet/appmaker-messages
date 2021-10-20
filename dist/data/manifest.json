@@ -8,7 +8,11 @@
             "raw": "https:\/\/raw.githubusercontent.com\/LouisOuellet\/"
         }
     },
+    "table": [
+        "messages",
+        "files"
+    ],
     "name": "messages",
-    "build": 13,
+    "build": 14,
     "version": "21.10-dev"
 }

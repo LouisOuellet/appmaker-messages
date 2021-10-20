@@ -1,0 +1,186 @@
+{
+    "files": {
+        "id": {
+            "order": 1,
+            "type": "int(11)"
+        },
+        "1": "id",
+        "created": {
+            "order": 2,
+            "type": "datetime"
+        },
+        "2": "created",
+        "modified": {
+            "order": 3,
+            "type": "datetime"
+        },
+        "3": "modified",
+        "owner": {
+            "order": 4,
+            "type": "varchar(255)"
+        },
+        "4": "owner",
+        "updated_by": {
+            "order": 5,
+            "type": "varchar(255)"
+        },
+        "5": "updated_by",
+        "name": {
+            "order": 6,
+            "type": "varchar(255)"
+        },
+        "6": "name",
+        "filename": {
+            "order": 7,
+            "type": "varchar(255)"
+        },
+        "7": "filename",
+        "file": {
+            "order": 8,
+            "type": "longblob"
+        },
+        "8": "file",
+        "type": {
+            "order": 9,
+            "type": "varchar(255)"
+        },
+        "9": "type",
+        "size": {
+            "order": 10,
+            "type": "varchar(255)"
+        },
+        "10": "size",
+        "encoding": {
+            "order": 11,
+            "type": "varchar(255)"
+        },
+        "11": "encoding",
+        "meta": {
+            "order": 12,
+            "type": "text"
+        },
+        "12": "meta",
+        "isAttachment": {
+            "order": 13,
+            "type": "varchar(255)"
+        },
+        "13": "isAttachment"
+    },
+    "messages": {
+        "id": {
+            "order": 1,
+            "type": "int(11)"
+        },
+        "1": "id",
+        "created": {
+            "order": 2,
+            "type": "datetime"
+        },
+        "2": "created",
+        "modified": {
+            "order": 3,
+            "type": "datetime"
+        },
+        "3": "modified",
+        "owner": {
+            "order": 4,
+            "type": "varchar(255)"
+        },
+        "4": "owner",
+        "updated_by": {
+            "order": 5,
+            "type": "varchar(255)"
+        },
+        "5": "updated_by",
+        "account": {
+            "order": 6,
+            "type": "varchar(255)"
+        },
+        "6": "account",
+        "folder": {
+            "order": 7,
+            "type": "varchar(255)"
+        },
+        "7": "folder",
+        "mid": {
+            "order": 8,
+            "type": "varchar(255)"
+        },
+        "8": "mid",
+        "uid": {
+            "order": 9,
+            "type": "varchar(255)"
+        },
+        "9": "uid",
+        "reply_to_id": {
+            "order": 10,
+            "type": "varchar(255)"
+        },
+        "10": "reply_to_id",
+        "reference_id": {
+            "order": 11,
+            "type": "text"
+        },
+        "11": "reference_id",
+        "sender": {
+            "order": 12,
+            "type": "varchar(255)"
+        },
+        "12": "sender",
+        "from": {
+            "order": 13,
+            "type": "varchar(255)"
+        },
+        "13": "from",
+        "to": {
+            "order": 14,
+            "type": "varchar(255)"
+        },
+        "14": "to",
+        "cc": {
+            "order": 15,
+            "type": "text"
+        },
+        "15": "cc",
+        "bcc": {
+            "order": 16,
+            "type": "text"
+        },
+        "16": "bcc",
+        "meta": {
+            "order": 17,
+            "type": "text"
+        },
+        "17": "meta",
+        "subject_original": {
+            "order": 18,
+            "type": "text"
+        },
+        "18": "subject_original",
+        "subject_stripped": {
+            "order": 19,
+            "type": "text"
+        },
+        "19": "subject_stripped",
+        "body_original": {
+            "order": 20,
+            "type": "text"
+        },
+        "20": "body_original",
+        "body_unquoted": {
+            "order": 21,
+            "type": "text"
+        },
+        "21": "body_unquoted",
+        "attachments": {
+            "order": 22,
+            "type": "varchar(255)"
+        },
+        "22": "attachments",
+        "isAttached": {
+            "order": 23,
+            "type": "varchar(255)"
+        },
+        "23": "isAttached"
+    }
+}
