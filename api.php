@@ -4,9 +4,7 @@ class messagesAPI extends CRUDAPI {
 	public function read($request = null, $data = null){
 		if(($data != null)||($data == null)){
 			if(!is_array($data)){ $data = json_decode($data, true); }
-			$messages = $this->Auth->query('SELECT * FROM `messages` WHERE `isAttached` = ?',
-				'false'
-			)->fetchAll();
+			$messages = $this->Auth->query('SELECT * FROM `messages`')->fetchAll();
 			if($messages != null){
 				$messages = $messages->all();
 				// Init Result
@@ -62,7 +60,7 @@ class messagesAPI extends CRUDAPI {
       // Output ids and subject of all messages retrieved
       foreach($inbox->messages as $msg){
         $message = [
-          "account" => "patch@albcustoms.com",
+          "account" => $username,
           "folder" => "INBOX",
           "mid" => trim($msg->Header->message_id,' '),
           "uid" => $msg->UID,
