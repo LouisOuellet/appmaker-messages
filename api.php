@@ -124,7 +124,54 @@ class messagesAPI extends CRUDAPI {
         $message["modified"] = date("Y-m-d H:i:s");
         $message["owner"] = $this->Auth->User['id'];
         $message["updated_by"] = $this->Auth->User['id'];
-        $this->saveMail($message);
+        $messageID = $this->saveMail($message);
+				foreach(explode(';',$message["attachments"]) as $fileID){
+					$this->createRelationship([
+						'relationship_1' => 'messages',
+						'link_to_1' => $messageID,
+						'relationship_2' => 'files',
+						'link_to_2' => $fileID,
+					]);
+				}
+				if(isset($this->Settings['plugins']['contacts']['status']) && $this->Settings['plugins']['contacts']['status']){
+					foreach(explode(';',$message["contacts"]) as $email){
+						$contact = $this->Auth->query('SELECT * FROM `contacts` WHERE `setDomain` LIKE ?',explode("@",$contact)[1])->fetchAll()->all();
+						if(!empty($contact)){
+							$this->createRelationship([
+								'relationship_1' => 'messages',
+								'link_to_1' => $messageID,
+								'relationship_2' => 'contacts',
+								'link_to_2' => $contact[0]['id'],
+							]);
+						} else {
+							$contact['email'] = $email
+							$email = explode('@',$message["contacts"]);
+							$contact['name'] = str_replace('.',' ',$email[0]);
+							$name = explode(' ',$contact["name"]);
+							switch(count($name)){
+								case 1:
+									$contact['first_name'] = $name[0];
+									break;
+								case 2:
+									$contact['first_name'] = $name[0];
+									$contact['last_name'] = $name[1];
+									break;
+								default:
+									$contact['first_name'] = $name[0];
+									$contact['middle_name'] = $name[1];
+									$contact['last_name'] = $name[2];
+									break;
+							}
+							$contactID = $this->Auth->create('contacts',$contact);
+							$this->createRelationship([
+								'relationship_1' => 'messages',
+								'link_to_1' => $messageID,
+								'relationship_2' => 'contacts',
+								'link_to_2' => $contactID,
+							]);
+						}
+					}
+				}
         $IMAP->delete($message['uid']);
       }
     }
