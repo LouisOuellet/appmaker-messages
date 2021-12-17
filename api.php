@@ -252,7 +252,7 @@ class messagesAPI extends CRUDAPI {
 					]);
 				} else {
 					$contact['isActive'] = 'true';
-					$contact['email'] = strolower($email);
+					$contact['email'] = strtolower($email);
 					$email = explode('@',$contact['email']);
 					$contact['name'] = ucwords(str_replace('.',' ',str_replace('_',' ',$email[0])));
 					$name = explode(' ',$contact["name"]);
