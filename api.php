@@ -71,6 +71,7 @@ class messagesAPI extends CRUDAPI {
           "to" => "",
           "cc" => "",
           "bcc" => "",
+					"contacts" => $msg->From.";",
           "meta" => json_encode($msg->Subject->Meta, JSON_PRETTY_PRINT),
           "subject_original" => $msg->Subject->Full,
           "subject_stripped" => $msg->Subject->PLAIN,
@@ -87,16 +88,20 @@ class messagesAPI extends CRUDAPI {
         }
         foreach($msg->To as $to){
           $message["to"] .= $to.";";
+					$message["contacts"] .= $to.";";
         }
         $message["to"] = trim($message["to"],';');
         foreach($msg->CC as $cc){
           $message["cc"] .= $cc.";";
+					$message["cc"] .= $to.";";
         }
         $message["cc"] = trim($message["cc"],';');
         foreach($msg->BCC as $bcc){
           $message["bcc"] .= $bcc.";";
+					$message["bcc"] .= $to.";";
         }
         $message["bcc"] = trim($message["bcc"],';');
+        $message["contacts"] = trim($message["contacts"],';');
         foreach($msg->Attachments->Files as $file){
           $file["created"] = date("Y-m-d H:i:s");
           $file["modified"] = date("Y-m-d H:i:s");
