@@ -252,7 +252,7 @@ class messagesAPI extends CRUDAPI {
 						'relationship_2' => 'contacts',
 						'link_to_2' => $contact[0]['id'],
 					]);
-					echo "[".$contact[0]['id']."]";
+					echo "[".$contact[0]['id']."]\n";
 				} else {
 					$contact['email'] = $email;
 					$email = explode('@',$mail["contacts"]);
@@ -275,7 +275,7 @@ class messagesAPI extends CRUDAPI {
 					echo "[NEW]";
 					var_dump($contact);
 					$contactID = $this->Auth->create('contacts',$contact);
-					echo "[".$contactID."]";
+					echo "[".$contactID."]\n";
 					$this->createRelationship([
 						'relationship_1' => 'messages',
 						'link_to_1' => $messageID,
