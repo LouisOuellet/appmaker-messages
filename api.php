@@ -276,6 +276,7 @@ class messagesAPI extends CRUDAPI {
 					var_dump($contact);
 					$contactID = $this->Auth->create('contacts',$contact);
 					if($contactID == null){
+						var_dump($this->Auth->User);
 						var_dump($this->Auth->Error);
 					}
 					echo "[".$contactID."]\n";
