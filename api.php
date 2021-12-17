@@ -251,6 +251,7 @@ class messagesAPI extends CRUDAPI {
 						'link_to_2' => $contact[0]['id'],
 					]);
 				} else {
+					$contact['isActive'] = 'true';
 					$contact['email'] = $email;
 					$email = explode('@',$mail["contacts"]);
 					$contact['name'] = str_replace('.',' ',str_replace('_',' ',$email[0]));
