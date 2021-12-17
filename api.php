@@ -62,8 +62,8 @@ class messagesAPI extends CRUDAPI {
         $message = [
           "account" => $username,
           "folder" => "INBOX",
-          "mid" => trim($msg->Header->message_id,' '),
-          "uid" => $msg->UID,
+          "mid" => str_replace(['>','<'],['',''],trim($msg->Header->message_id,' ')),
+          "uid" => str_replace(['>','<'],['',''],$msg->UID),
           "reply_to_id" => "",
           "reference_id" => "",
           "sender" => $msg->Sender,
@@ -79,12 +79,12 @@ class messagesAPI extends CRUDAPI {
           "body_unquoted" => $msg->Body->Unquoted,
           "attachments" => "",
         ];
-        if(isset($msg->Header->in_reply_to)){ $message["reply_to_id"] = $msg->Header->in_reply_to; }
+        if(isset($msg->Header->in_reply_to)){ $message["reply_to_id"] = str_replace(['>','<'],['',''],$msg->Header->in_reply_to); }
         if(isset($msg->Header->references)){
           foreach(explode(' ',$msg->Header->references) as $reference){
             $message["reference_id"] .= trim($reference,',').";";
           }
-          $message["reference_id"] = trim($message["reference_id"],';');
+          $message["reference_id"] = str_replace(['>','<'],['',''],trim($message["reference_id"],';'));
         }
         foreach($msg->To as $to){
           $message["to"] .= $to.";";
@@ -102,41 +102,45 @@ class messagesAPI extends CRUDAPI {
         }
         $message["bcc"] = trim($message["bcc"],';');
         $message["contacts"] = trim($message["contacts"],';');
-        foreach($msg->Attachments->Files as $file){
-          $file["created"] = date("Y-m-d H:i:s");
-          $file["modified"] = date("Y-m-d H:i:s");
-          $file["owner"] = $this->Auth->User['id'];
-          $file["updated_by"] = $this->Auth->User['id'];
-          $file["isAttachment"] = "true";
-          $file["file"] = $file["attachment"];
-          $file["size"] = $file["bytes"];
-          $file["encoding"] = $file["encoding"];
-          $file["meta"] = "";
-          $file["type"] = "unknown";
-          if(isset($file["name"])){
-            $filename = explode('.',$file["name"]);
-            $file["type"] = end($filename);
-          } else { $file["name"] = null; }
-          if(isset($file["filename"])){
-            $filename = explode('.',$file["filename"]);
-            $file["type"] = end($filename);
-          } else { $file["filename"] = null; }
-          $fileID = $this->saveFile($file);
-          if($fileID != null || $fileID != ''){ $message["attachments"] .= $fileID.";"; }
-        }
-        $message["attachments"] = trim($message["attachments"],';');
-        $message["created"] = date("Y-m-d H:i:s");
-        $message["modified"] = date("Y-m-d H:i:s");
-        $message["owner"] = $this->Auth->User['id'];
-        $message["updated_by"] = $this->Auth->User['id'];
-        $messageID = $this->saveMail($message);
-				foreach(explode(';',$message["attachments"]) as $fileID){
-					$this->createRelationship([
-						'relationship_1' => 'messages',
-						'link_to_1' => $messageID,
-						'relationship_2' => 'files',
-						'link_to_2' => $fileID,
-					]);
+				$messages = $this->Auth->query('SELECT * FROM `messages` WHERE `mid` = ?',$message["mid"])->fetchAll()->all();
+				if(empty($messages)){
+	        foreach($msg->Attachments->Files as $file){
+	          $file["created"] = date("Y-m-d H:i:s");
+	          $file["modified"] = date("Y-m-d H:i:s");
+	          $file["owner"] = $this->Auth->User['id'];
+	          $file["updated_by"] = $this->Auth->User['id'];
+	          $file["isAttachment"] = "true";
+	          $file["file"] = $file["attachment"];
+	          $file["size"] = $file["bytes"];
+	          $file["encoding"] = $file["encoding"];
+	          $file["meta"] = "";
+	          $file["type"] = "unknown";
+	          if(isset($file["name"])){
+	            $filename = explode('.',$file["name"]);
+	            $file["type"] = end($filename);
+	          } else { $file["name"] = null; }
+	          if(isset($file["filename"])){
+	            $filename = explode('.',$file["filename"]);
+	            $file["type"] = end($filename);
+	          } else { $file["filename"] = null; }
+	          $fileID = $this->saveFile($file);
+	          if($fileID != null || $fileID != ''){ $message["attachments"] .= $fileID.";"; }
+	        }
+	        $message["attachments"] = trim($message["attachments"],';');
+	        $message["created"] = date("Y-m-d H:i:s");
+	        $message["modified"] = date("Y-m-d H:i:s");
+	        $message["owner"] = $this->Auth->User['id'];
+	        $message["updated_by"] = $this->Auth->User['id'];
+	        $messageID = $this->saveMail($message);
+					foreach(explode(';',$message["attachments"]) as $fileID){
+						$this->createRelationship([
+							'relationship_1' => 'messages',
+							'link_to_1' => $messageID,
+							'relationship_2' => 'files',
+							'link_to_2' => $fileID,
+						]);
+					}
+					if(isset($this->Settings['debug']) && $this->Settings['debug']){ echo "Saving MessageID: ".$message['mid']."\n"; }
 				}
         $IMAP->delete($message['uid']);
       }
@@ -222,10 +226,10 @@ class messagesAPI extends CRUDAPI {
       $mail["updated_by"],
       $mail["account"],
       $mail["folder"],
-      str_replace(['>','<'],['',''],$mail["mid"]),
-      str_replace(['>','<'],['',''],$mail["uid"]),
-      str_replace(['>','<'],['',''],$mail["reply_to_id"]),
-      str_replace(['>','<'],['',''],$mail["reference_id"]),
+      $mail["mid"],
+      $mail["uid"],
+      $mail["reply_to_id"],
+      $mail["reference_id"],
       strtolower($mail["sender"]),
       strtolower($mail["from"]),
       strtolower($mail["to"]),
