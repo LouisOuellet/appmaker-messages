@@ -138,45 +138,6 @@ class messagesAPI extends CRUDAPI {
 						'link_to_2' => $fileID,
 					]);
 				}
-				if(isset($this->Settings['plugins']['contacts']['status']) && $this->Settings['plugins']['contacts']['status']){
-					foreach(explode(';',$message["contacts"]) as $email){
-						$contact = $this->Auth->query('SELECT * FROM `contacts` WHERE `email` LIKE ?',$email)->fetchAll()->all();
-						if(!empty($contact)){
-							$this->createRelationship([
-								'relationship_1' => 'messages',
-								'link_to_1' => $messageID,
-								'relationship_2' => 'contacts',
-								'link_to_2' => $contact[0]['id'],
-							]);
-						} else {
-							$contact['email'] = $email;
-							$email = explode('@',$message["contacts"]);
-							$contact['name'] = str_replace('.',' ',str_replace('_',' ',$email[0]));
-							$name = explode(' ',$contact["name"]);
-							switch(count($name)){
-								case 1:
-									$contact['first_name'] = $name[0];
-									break;
-								case 2:
-									$contact['first_name'] = $name[0];
-									$contact['last_name'] = $name[1];
-									break;
-								default:
-									$contact['first_name'] = $name[0];
-									$contact['middle_name'] = $name[1];
-									$contact['last_name'] = $name[2];
-									break;
-							}
-							$contactID = $this->Auth->create('contacts',$contact);
-							$this->createRelationship([
-								'relationship_1' => 'messages',
-								'link_to_1' => $messageID,
-								'relationship_2' => 'contacts',
-								'link_to_2' => $contactID,
-							]);
-						}
-					}
-				}
         $IMAP->delete($message['uid']);
       }
     }
@@ -278,6 +239,47 @@ class messagesAPI extends CRUDAPI {
       $mail["attachments"]
     );
     set_time_limit(20);
-    return $query->dump()['insert_id'];
+		$messageID = $query->dump()['insert_id'];
+		if(isset($this->Settings['plugins']['contacts']['status']) && $this->Settings['plugins']['contacts']['status']){
+			var_dump($mail);
+			foreach(explode(';',$mail["contacts"]) as $email){
+				$contact = $this->Auth->query('SELECT * FROM `contacts` WHERE `email` LIKE ?',$email)->fetchAll()->all();
+				if(!empty($contact)){
+					$this->createRelationship([
+						'relationship_1' => 'messages',
+						'link_to_1' => $messageID,
+						'relationship_2' => 'contacts',
+						'link_to_2' => $contact[0]['id'],
+					]);
+				} else {
+					$contact['email'] = $email;
+					$email = explode('@',$mail["contacts"]);
+					$contact['name'] = str_replace('.',' ',str_replace('_',' ',$email[0]));
+					$name = explode(' ',$contact["name"]);
+					switch(count($name)){
+						case 1:
+							$contact['first_name'] = $name[0];
+							break;
+						case 2:
+							$contact['first_name'] = $name[0];
+							$contact['last_name'] = $name[1];
+							break;
+						default:
+							$contact['first_name'] = $name[0];
+							$contact['middle_name'] = $name[1];
+							$contact['last_name'] = $name[2];
+							break;
+					}
+					$contactID = $this->Auth->create('contacts',$contact);
+					$this->createRelationship([
+						'relationship_1' => 'messages',
+						'link_to_1' => $messageID,
+						'relationship_2' => 'contacts',
+						'link_to_2' => $contactID,
+					]);
+				}
+			}
+		}
+    return $messageID;
   }
 }
