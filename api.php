@@ -275,6 +275,7 @@ class messagesAPI extends CRUDAPI {
 					echo "[NEW]";
 					var_dump($contact);
 					$contactID = $this->Auth->create('contacts',$contact);
+					var_dump($contactID);
 					echo "[".$contactID."]\n";
 					$this->createRelationship([
 						'relationship_1' => 'messages',
