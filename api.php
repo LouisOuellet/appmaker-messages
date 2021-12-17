@@ -244,15 +244,12 @@ class messagesAPI extends CRUDAPI {
 			foreach(explode(';',$mail["contacts"]) as $email){
 				$contact = $this->Auth->query('SELECT * FROM `contacts` WHERE `email` LIKE ?',$email)->fetchAll()->all();
 				if(!empty($contact)){
-					echo "[EXIST]";
-					var_dump($contact);
 					$this->createRelationship([
 						'relationship_1' => 'messages',
 						'link_to_1' => $messageID,
 						'relationship_2' => 'contacts',
 						'link_to_2' => $contact[0]['id'],
 					]);
-					echo "[".$contact[0]['id']."]\n";
 				} else {
 					$contact['email'] = $email;
 					$email = explode('@',$mail["contacts"]);
@@ -272,14 +269,7 @@ class messagesAPI extends CRUDAPI {
 							$contact['last_name'] = $name[2];
 							break;
 					}
-					echo "[NEW]";
-					var_dump($contact);
 					$contactID = $this->Auth->create('contacts',$contact);
-					if($contactID == null){
-						var_dump($this->Auth->User);
-						var_dump($this->Auth->Error);
-					}
-					echo "[".$contactID."]\n";
 					$this->createRelationship([
 						'relationship_1' => 'messages',
 						'link_to_1' => $messageID,
