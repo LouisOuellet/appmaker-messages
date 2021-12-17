@@ -8,11 +8,13 @@
             "raw": "https:\/\/raw.githubusercontent.com\/LouisOuellet\/"
         }
     },
-    "table": [
-        "messages",
-        "files"
-    ],
+    "requirements": {
+        "table": [
+            "messages",
+            "files"
+        ]
+    },
     "name": "messages",
-    "build": 73,
+    "build": 74,
     "version": "21.12-dev"
 }
