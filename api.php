@@ -241,10 +241,10 @@ class messagesAPI extends CRUDAPI {
     set_time_limit(20);
 		$messageID = $query->dump()['insert_id'];
 		if(isset($this->Settings['plugins']['contacts']['status']) && $this->Settings['plugins']['contacts']['status']){
-			var_dump($mail);
 			foreach(explode(';',$mail["contacts"]) as $email){
 				$contact = $this->Auth->query('SELECT * FROM `contacts` WHERE `email` LIKE ?',$email)->fetchAll()->all();
 				if(!empty($contact)){
+					echo "[EXIST]";
 					var_dump($contact);
 					$this->createRelationship([
 						'relationship_1' => 'messages',
@@ -271,6 +271,7 @@ class messagesAPI extends CRUDAPI {
 							$contact['last_name'] = $name[2];
 							break;
 					}
+					echo "[NEW]";
 					var_dump($contact);
 					$contactID = $this->Auth->create('contacts',$contact);
 					$this->createRelationship([
