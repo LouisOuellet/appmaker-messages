@@ -245,6 +245,7 @@ class messagesAPI extends CRUDAPI {
 			foreach(explode(';',$mail["contacts"]) as $email){
 				$contact = $this->Auth->query('SELECT * FROM `contacts` WHERE `email` LIKE ?',$email)->fetchAll()->all();
 				if(!empty($contact)){
+					var_dump($contact);
 					$this->createRelationship([
 						'relationship_1' => 'messages',
 						'link_to_1' => $messageID,
@@ -270,6 +271,7 @@ class messagesAPI extends CRUDAPI {
 							$contact['last_name'] = $name[2];
 							break;
 					}
+					var_dump($contact);
 					$contactID = $this->Auth->create('contacts',$contact);
 					$this->createRelationship([
 						'relationship_1' => 'messages',
