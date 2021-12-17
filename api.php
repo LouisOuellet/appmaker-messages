@@ -135,7 +135,7 @@ class messagesAPI extends CRUDAPI {
 				}
 				if(isset($this->Settings['plugins']['contacts']['status']) && $this->Settings['plugins']['contacts']['status']){
 					foreach(explode(';',$message["contacts"]) as $email){
-						$contact = $this->Auth->query('SELECT * FROM `contacts` WHERE `setDomain` LIKE ?',explode("@",$contact)[1])->fetchAll()->all();
+						$contact = $this->Auth->query('SELECT * FROM `contacts` WHERE `email` LIKE ?',$email)->fetchAll()->all();
 						if(!empty($contact)){
 							$this->createRelationship([
 								'relationship_1' => 'messages',
@@ -146,7 +146,7 @@ class messagesAPI extends CRUDAPI {
 						} else {
 							$contact['email'] = $email;
 							$email = explode('@',$message["contacts"]);
-							$contact['name'] = str_replace('.',' ',$email[0]);
+							$contact['name'] = str_replace('.',' ',str_replace('_',' ',$email[0]));
 							$name = explode(' ',$contact["name"]);
 							switch(count($name)){
 								case 1:
