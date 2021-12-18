@@ -106,6 +106,14 @@ API.Plugins.messages = {
 							return new Date($(b).data("date")) - new Date($(a).data("date"));
 						});
 						layout.timeline.append(items);
+						if(API.Auth.validate('plugin', 'messages', 4)){
+							$('<a class="time text-light pointer"><i class="fas fa-trash-alt"></i></a>').insertAfter(element.find('span.time'));
+							element.find('a.pointer').off().click(function(){
+								API.CRUD.delete.show({ keys:dataset,key:'id', modal:true, plugin:'messages' },function(note){
+									element.remove();
+								});
+							});
+						}
 						if(callback != null){ callback(element); }
 					}
 				}, 100);
