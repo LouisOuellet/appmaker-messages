@@ -106,6 +106,10 @@ API.Plugins.messages = {
 							return new Date($(b).data("date")) - new Date($(a).data("date"));
 						});
 						layout.timeline.append(items);
+						element.find('i').first().addClass('pointer');
+						element.find('i').first().off().click(function(){
+							API.CRUD.read.show({ key:'id',keys:dataset, href:"?p=messages&v=details&id="+dataset.id, modal:true });
+						});
 						if(API.Auth.validate('plugin', 'messages', 4)){
 							$('<a class="time text-light pointer"><i class="fas fa-trash-alt"></i></a>').insertAfter(element.find('span.time'));
 							element.find('a.pointer').off().click(function(){
