@@ -38,7 +38,7 @@ API.Plugins.messages = {
 		icon:"envelope-open-text",
 		object:function(dataset,layout,options = {},callback = null){
 			if(options instanceof Function){ callback = options; options = {}; }
-			var defaults = {icon: API.Plugins.contacts.Timeline.icon,color: "info"};
+			var defaults = {icon: API.Plugins.messages.Timeline.icon,color: "info"};
 			if(API.Helper.isSet(options,['icon'])){ defaults.icon = options.icon; }
 			if(API.Helper.isSet(options,['color'])){ defaults.color = options.color; }
 			if(typeof dataset.id !== 'undefined'){
