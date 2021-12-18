@@ -46,7 +46,7 @@ API.Plugins.messages = {
 				var id = url.searchParams.get("id"), html = '';
 				var dateItem = new Date(dataset.created);
 				var dateUS = dateItem.toLocaleDateString('en-US', {day: 'numeric', month: 'short', year: 'numeric'}).replace(/ /g, '-').replace(/,/g, '');
-				API.Builder.Timeline.add.date(timeline,dataset.created);
+				API.Builder.Timeline.add.date(layout.timeline,dataset.created);
 				var checkExist = setInterval(function() {
 					if(layout.timeline.find('div.time-label[data-dateus="'+dateUS+'"]').length > 0){
 						clearInterval(checkExist);
