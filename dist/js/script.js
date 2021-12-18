@@ -66,12 +66,12 @@ API.Plugins.messages = {
 										html += '</button>';
 									html += '</div>';
 								html += '</h3>';
-								html += '<h3 class="timeline-header bg-gray p-0 collapse" id="message-contacts-'+dataset.id+'">';
+								html += '<h3 class="timeline-header p-0 collapse" id="message-contacts-'+dataset.id+'">';
 									for(var [index, contact] of Object.entries(dataset.contacts)){
 										html += '<button type="button" class="btn btn-xs btn-primary m-1" data-contact="'+contact.email+'"><i class="fas fa-address-card mr-1"></i>'+contact.email+'</button>';
 									}
 								html += '</h3>';
-								html += '<h3 class="timeline-header bg-gray p-0 collapse" id="message-files-'+dataset.id+'">';
+								html += '<h3 class="timeline-header p-0 collapse" id="message-files-'+dataset.id+'">';
 									for(var [index, file] of Object.entries(dataset.files)){
 										html += '<div class="btn-group m-1" data-id="'+file.id+'">';
 											html += '<button type="button" class="btn btn-xs btn-primary" data-action="details">';
