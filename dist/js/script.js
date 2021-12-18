@@ -89,7 +89,7 @@ API.Plugins.messages = {
 						layout.timeline.find('div.time-label[data-dateus="'+dateUS+'"]').after(html);
 						var element = layout.timeline.find('[data-plugin][data-id="'+dataset.id+'"]');
 						var html = '';
-						html += '<div class="timeline-footer bg-gray">';
+						html += '<div class="timeline-footer bg-dark">';
 							html += '<a class="btn my-2"></a>';
 							html += '<button type="button" class="btn btn-primary btn-sm float-right"><i class="fas fa-reply mr-1"></i>Reply</button>';
 						html += '</div>';
