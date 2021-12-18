@@ -48,7 +48,7 @@ API.Plugins.messages = {
 				var dateUS = dateItem.toLocaleDateString('en-US', {day: 'numeric', month: 'short', year: 'numeric'}).replace(/ /g, '-').replace(/,/g, '');
 				API.Builder.Timeline.add.date(timeline,dataset.created);
 				var checkExist = setInterval(function() {
-					if(timeline.find('div.time-label[data-dateus="'+dateUS+'"]').length > 0){
+					if(layout.timeline.find('div.time-label[data-dateus="'+dateUS+'"]').length > 0){
 						clearInterval(checkExist);
 						var html = '';
 						html += '<div data-plugin="messages" data-id="'+dataset.id+'" data-date="'+dateItem.getTime()+'">';
@@ -86,8 +86,8 @@ API.Plugins.messages = {
 								html += '<div class="timeline-body">'+dataset.body_unquoted+'</div>';
 							html += '</div>';
 						html += '</div>';
-						timeline.find('div.time-label[data-dateus="'+dateUS+'"]').after(html);
-						var element = timeline.find('[data-plugin][data-id="'+dataset.id+'"]');
+						layout.timeline.find('div.time-label[data-dateus="'+dateUS+'"]').after(html);
+						var element = layout.timeline.find('[data-plugin][data-id="'+dataset.id+'"]');
 						var html = '';
 						html += '<div class="timeline-footer bg-dark">';
 							html += '<a class="btn my-2"></a>';
@@ -101,11 +101,11 @@ API.Plugins.messages = {
 							$('[data-plugin="'+url.searchParams.get("p")+'"][data-form="comments"]').first().summernote('code', content);
 							$('ul.nav li.nav-item a[href*="comments"]').tab('show');
 						});
-						var items = timeline.children('div').detach().get();
+						var items = layout.timeline.children('div').detach().get();
 						items.sort(function(a, b){
 							return new Date($(b).data("date")) - new Date($(a).data("date"));
 						});
-						timeline.append(items);
+						layout.timeline.append(items);
 						if(callback != null){ callback(element); }
 					}
 				}, 100);
