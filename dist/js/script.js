@@ -66,12 +66,12 @@ API.Plugins.messages = {
 										html += '</button>';
 									html += '</div>';
 								html += '</h3>';
-								html += '<h3 class="timeline-header bg-white p-0 collapse" id="message-contacts-'+dataset.id+'">';
+								html += '<h3 class="timeline-header bg-seconday p-0 collapse" id="message-contacts-'+dataset.id+'">';
 									for(var [index, contact] of Object.entries(dataset.contacts)){
-										html += '<button type="button" class="btn btn-xs btn-primary m-1" data-contact="'+contact+'"><i class="fas fa-address-card mr-1"></i>'+contact+'</button>';
+										html += '<button type="button" class="btn btn-xs btn-primary m-1" data-contact="'+contact.email+'"><i class="fas fa-address-card mr-1"></i>'+contact.email+'</button>';
 									}
 								html += '</h3>';
-								html += '<h3 class="timeline-header bg-white p-0 collapse" id="message-files-'+dataset.id+'">';
+								html += '<h3 class="timeline-header bg-seconday p-0 collapse" id="message-files-'+dataset.id+'">';
 									for(var [index, file] of Object.entries(dataset.files)){
 										html += '<div class="btn-group m-1" data-id="'+file.id+'">';
 											html += '<button type="button" class="btn btn-xs btn-primary" data-action="details">';
@@ -89,7 +89,7 @@ API.Plugins.messages = {
 						layout.timeline.find('div.time-label[data-dateus="'+dateUS+'"]').after(html);
 						var element = layout.timeline.find('[data-plugin][data-id="'+dataset.id+'"]');
 						var html = '';
-						html += '<div class="timeline-footer bg-dark">';
+						html += '<div class="timeline-footer bg-seconday">';
 							html += '<a class="btn my-2"></a>';
 							html += '<button type="button" class="btn btn-primary btn-sm float-right"><i class="fas fa-reply mr-1"></i>Reply</button>';
 						html += '</div>';
