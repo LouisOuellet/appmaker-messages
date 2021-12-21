@@ -56,7 +56,7 @@ API.Plugins.messages = {
 							html += '<div class="timeline-item">';
 								html += '<span class="time bg-'+defaults.color+'"><i class="fas fa-clock mr-2"></i><time class="timeago" datetime="'+dataset.created.replace(/ /g, "T")+'">'+dataset.created+'</time></span>';
 								html += '<h3 class="timeline-header bg-'+defaults.color+'"><a class="mr-2">'+dataset.from+'</a><br>'+dataset.subject_stripped+'</h3>';
-								html += '<h3 class="timeline-header bg-white p-0">';
+								html += '<h3 class="timeline-header p-0">';
 									html += '<div class="btn-group btn-block">';
 										if(API.Helper.isSet(dataset,['contacts'])){
 											html += '<button type="button" class="btn btn-flat btn-xs btn-primary" data-toggle="collapse" href="#message-contacts-'+dataset.id+'">';
