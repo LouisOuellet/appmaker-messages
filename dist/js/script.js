@@ -67,20 +67,24 @@ API.Plugins.messages = {
 									html += '</div>';
 								html += '</h3>';
 								html += '<h3 class="timeline-header p-0 collapse" id="message-contacts-'+dataset.id+'">';
-									for(var [index, contact] of Object.entries(dataset.contacts)){
-										html += '<button type="button" class="btn btn-xs btn-primary m-1" data-contact="'+contact.email+'"><i class="fas fa-address-card mr-1"></i>'+contact.email+'</button>';
+									if(API.Helper.isSet(dataset,['contacts'])){
+										for(var [index, contact] of Object.entries(dataset.contacts)){
+											html += '<button type="button" class="btn btn-xs btn-primary m-1" data-contact="'+contact.email+'"><i class="fas fa-address-card mr-1"></i>'+contact.email+'</button>';
+										}
 									}
 								html += '</h3>';
 								html += '<h3 class="timeline-header p-0 collapse" id="message-files-'+dataset.id+'">';
-									for(var [index, file] of Object.entries(dataset.files)){
-										html += '<div class="btn-group m-1" data-id="'+file.id+'">';
-											html += '<button type="button" class="btn btn-xs btn-primary" data-action="details">';
-												html += '<i class="fas fa-file mr-1"></i>'+file.name;
-											html += '</button>';
-											html += '<button type="button" class="btn btn-xs btn-warning" data-action="download">';
-												html += '<i class="fas fa-file-download mr-1"></i>'+API.Helper.getFileSize(file.size,true,2);
-											html += '</button>';
-										html += '</div>';
+									if(API.Helper.isSet(dataset,['files'])){
+										for(var [index, file] of Object.entries(dataset.files)){
+											html += '<div class="btn-group m-1" data-id="'+file.id+'">';
+												html += '<button type="button" class="btn btn-xs btn-primary" data-action="details">';
+													html += '<i class="fas fa-file mr-1"></i>'+file.name;
+												html += '</button>';
+												html += '<button type="button" class="btn btn-xs btn-warning" data-action="download">';
+													html += '<i class="fas fa-file-download mr-1"></i>'+API.Helper.getFileSize(file.size,true,2);
+												html += '</button>';
+											html += '</div>';
+										}
 									}
 								html += '</h3>';
 								html += '<div class="timeline-body">'+dataset.body_unquoted+'</div>';
