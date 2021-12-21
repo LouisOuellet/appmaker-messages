@@ -56,41 +56,43 @@ API.Plugins.messages = {
 							html += '<div class="timeline-item">';
 								html += '<span class="time bg-'+defaults.color+'"><i class="fas fa-clock mr-2"></i><time class="timeago" datetime="'+dataset.created.replace(/ /g, "T")+'">'+dataset.created+'</time></span>';
 								html += '<h3 class="timeline-header bg-'+defaults.color+'"><a class="mr-2">'+dataset.from+'</a><br>'+dataset.subject_stripped+'</h3>';
-								html += '<h3 class="timeline-header p-0">';
-									html += '<div class="btn-group btn-block">';
+								if(API.Helper.isSet(dataset,['contacts']) || API.Helper.isSet(dataset,['files'])){
+									html += '<h3 class="timeline-header p-0">';
+										html += '<div class="btn-group btn-block">';
+											if(API.Helper.isSet(dataset,['contacts'])){
+												html += '<button type="button" class="btn btn-flat btn-xs btn-primary" data-toggle="collapse" href="#message-contacts-'+dataset.id+'">';
+													html += '<i class="fas fa-address-card mr-1"></i>View Contacts';
+												html += '</button>';
+											}
+											if(API.Helper.isSet(dataset,['files'])){
+												html += '<button type="button" class="btn btn-flat btn-xs btn-warning" data-toggle="collapse" href="#message-files-'+dataset.id+'">';
+													html += '<i class="fas fa-file mr-1"></i>View Files';
+												html += '</button>';
+											}
+										html += '</div>';
+									html += '</h3>';
+									html += '<h3 class="timeline-header p-0 collapse" id="message-contacts-'+dataset.id+'">';
 										if(API.Helper.isSet(dataset,['contacts'])){
-											html += '<button type="button" class="btn btn-flat btn-xs btn-primary" data-toggle="collapse" href="#message-contacts-'+dataset.id+'">';
-												html += '<i class="fas fa-address-card mr-1"></i>View Contacts';
-											html += '</button>';
+											for(var [index, contact] of Object.entries(dataset.contacts)){
+												html += '<button type="button" class="btn btn-xs btn-primary m-1" data-contact="'+contact.email+'"><i class="fas fa-address-card mr-1"></i>'+contact.email+'</button>';
+											}
 										}
+									html += '</h3>';
+									html += '<h3 class="timeline-header p-0 collapse" id="message-files-'+dataset.id+'">';
 										if(API.Helper.isSet(dataset,['files'])){
-											html += '<button type="button" class="btn btn-flat btn-xs btn-warning" data-toggle="collapse" href="#message-files-'+dataset.id+'">';
-												html += '<i class="fas fa-file mr-1"></i>View Files';
-											html += '</button>';
+											for(var [index, file] of Object.entries(dataset.files)){
+												html += '<div class="btn-group m-1" data-id="'+file.id+'">';
+													html += '<button type="button" class="btn btn-xs btn-primary" data-action="details">';
+														html += '<i class="fas fa-file mr-1"></i>'+file.name;
+													html += '</button>';
+													html += '<button type="button" class="btn btn-xs btn-warning" data-action="download">';
+														html += '<i class="fas fa-file-download mr-1"></i>'+API.Helper.getFileSize(file.size,true,2);
+													html += '</button>';
+												html += '</div>';
+											}
 										}
-									html += '</div>';
-								html += '</h3>';
-								html += '<h3 class="timeline-header p-0 collapse" id="message-contacts-'+dataset.id+'">';
-									if(API.Helper.isSet(dataset,['contacts'])){
-										for(var [index, contact] of Object.entries(dataset.contacts)){
-											html += '<button type="button" class="btn btn-xs btn-primary m-1" data-contact="'+contact.email+'"><i class="fas fa-address-card mr-1"></i>'+contact.email+'</button>';
-										}
-									}
-								html += '</h3>';
-								html += '<h3 class="timeline-header p-0 collapse" id="message-files-'+dataset.id+'">';
-									if(API.Helper.isSet(dataset,['files'])){
-										for(var [index, file] of Object.entries(dataset.files)){
-											html += '<div class="btn-group m-1" data-id="'+file.id+'">';
-												html += '<button type="button" class="btn btn-xs btn-primary" data-action="details">';
-													html += '<i class="fas fa-file mr-1"></i>'+file.name;
-												html += '</button>';
-												html += '<button type="button" class="btn btn-xs btn-warning" data-action="download">';
-													html += '<i class="fas fa-file-download mr-1"></i>'+API.Helper.getFileSize(file.size,true,2);
-												html += '</button>';
-											html += '</div>';
-										}
-									}
-								html += '</h3>';
+									html += '</h3>';
+								}
 								html += '<div class="timeline-body">'+dataset.body_unquoted+'</div>';
 							html += '</div>';
 						html += '</div>';
