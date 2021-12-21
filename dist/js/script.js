@@ -58,12 +58,16 @@ API.Plugins.messages = {
 								html += '<h3 class="timeline-header bg-'+defaults.color+'"><a class="mr-2">'+dataset.from+'</a><br>'+dataset.subject_stripped+'</h3>';
 								html += '<h3 class="timeline-header bg-white p-0">';
 									html += '<div class="btn-group btn-block">';
-										html += '<button type="button" class="btn btn-flat btn-xs btn-primary" data-toggle="collapse" href="#message-contacts-'+dataset.id+'">';
-											html += '<i class="fas fa-address-card mr-1"></i>View Contacts';
-										html += '</button>';
-										html += '<button type="button" class="btn btn-flat btn-xs btn-warning" data-toggle="collapse" href="#message-files-'+dataset.id+'">';
-											html += '<i class="fas fa-file mr-1"></i>View Files';
-										html += '</button>';
+										if(API.Helper.isSet(dataset,['contacts'])){
+											html += '<button type="button" class="btn btn-flat btn-xs btn-primary" data-toggle="collapse" href="#message-contacts-'+dataset.id+'">';
+												html += '<i class="fas fa-address-card mr-1"></i>View Contacts';
+											html += '</button>';
+										}
+										if(API.Helper.isSet(dataset,['files'])){
+											html += '<button type="button" class="btn btn-flat btn-xs btn-warning" data-toggle="collapse" href="#message-files-'+dataset.id+'">';
+												html += '<i class="fas fa-file mr-1"></i>View Files';
+											html += '</button>';
+										}
 									html += '</div>';
 								html += '</h3>';
 								html += '<h3 class="timeline-header p-0 collapse" id="message-contacts-'+dataset.id+'">';
