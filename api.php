@@ -274,7 +274,29 @@ class messagesAPI extends CRUDAPI {
 							$contact['last_name'] = $name[2];
 							break;
 					}
+					if(isset($this->Settings['plugins']['organizations']['status']) && $this->Settings['plugins']['organizations']['status']){
+						$organization = $this->Auth->query('SELECT * FROM `organizations` WHERE `setDomain` LIKE ?',$email[1])->fetchAll()->all();
+						if(!empty($organization)){
+							$contact['organization'] = $organization[0]['id'];
+							$this->createRelationship([
+								'relationship_1' => 'messages',
+								'link_to_1' => $messageID,
+								'relationship_2' => 'organizations',
+								'link_to_2' => $organization[0]['id'],
+							]);
+						}
+					}
 					$contactID = $this->Auth->create('contacts',$contact);
+					if(isset($this->Settings['plugins']['organizations']['status']) && $this->Settings['plugins']['organizations']['status']){
+						if(isset($contact['organization'])){
+							$this->createRelationship([
+								'relationship_1' => 'organizations',
+								'link_to_1' => $contact['organization'],
+								'relationship_2' => 'contacts',
+								'link_to_2' => $contactID,
+							]);
+						}
+					}
 					$this->createRelationship([
 						'relationship_1' => 'messages',
 						'link_to_1' => $messageID,
