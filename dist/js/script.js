@@ -50,8 +50,6 @@ API.Plugins.messages = {
 				var checkExist = setInterval(function() {
 					if(layout.timeline.find('div.time-label[data-dateus="'+dateUS+'"]').length > 0){
 						clearInterval(checkExist);
-						console.log(API.Helper.isSet(layout,['timeline']));
-						console.log(layout.timeline.find('.time-label').first().find('div.btn-group').find('button[data-trigger="messages"]').length);
 						if(API.Helper.isSet(layout,['timeline']) && layout.timeline.find('.time-label').first().find('div.btn-group').find('button[data-trigger="messages"]').length <= 0){
 							layout.timeline.find('.time-label').first().find('div.btn-group').append('<button class="btn btn-secondary" data-trigger="messages">'+API.Contents.Language['Messages']+'</button>');
 						}
