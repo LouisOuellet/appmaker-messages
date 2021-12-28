@@ -50,6 +50,9 @@ API.Plugins.messages = {
 				var checkExist = setInterval(function() {
 					if(layout.timeline.find('div.time-label[data-dateus="'+dateUS+'"]').length > 0){
 						clearInterval(checkExist);
+						if(layout.timeline.lenght > 0 && layout.timeline.find('.time-label').first().find('div.btn-group').find('button[data-trigger="messages"]').length <= 0){
+							layout.timeline.find('.time-label').first().find('div.btn-group').append('<button class="btn btn-secondary" data-trigger="messages">'+API.Contents.Language['Messages']+'</button>');
+						}
 						var html = '';
 						html += '<div data-plugin="messages" data-id="'+dataset.id+'" data-date="'+dateItem.getTime()+'">';
 							html += '<i class="fas fa-'+defaults.icon+' bg-'+defaults.color+'"></i>';
