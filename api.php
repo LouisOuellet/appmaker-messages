@@ -287,6 +287,7 @@ class messagesAPI extends CRUDAPI {
 						}
 					}
 					$contactID = $this->Auth->create('contacts',$contact);
+					if(isset($this->Settings['debug']) && $this->Settings['debug']){ echo "[".$contactID."]"."Contact Created: ".$contact['name']."\n"; }
 					if(isset($this->Settings['plugins']['organizations']['status']) && $this->Settings['plugins']['organizations']['status']){
 						if(isset($contact['organization'])){
 							$this->createRelationship([
