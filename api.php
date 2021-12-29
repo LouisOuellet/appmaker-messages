@@ -122,7 +122,10 @@ class messagesAPI extends CRUDAPI {
 		            $file["type"] = end($filename);
 		          } else { $file["filename"] = null; }
 		          $fileID = $API->save($file);
-		          if($fileID != null || $fileID != ''){ $message["attachments"] .= $fileID.";"; }
+		          if($fileID != null || $fileID != ''){
+								if(isset($this->Settings['debug']) && $this->Settings['debug']){ echo "Saving FileID: ".$fileID."\n"; }
+								$message["attachments"] .= $fileID.";";
+							}
 		        }
 					}
 	        $message["attachments"] = trim($message["attachments"],';');
