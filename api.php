@@ -104,34 +104,33 @@ class messagesAPI extends CRUDAPI {
         $message["contacts"] = trim($message["contacts"],';');
 				$messages = $this->Auth->query('SELECT * FROM `messages` WHERE `mid` = ?',$message["mid"])->fetchAll()->all();
 				if(empty($messages)){
-	        foreach($msg->Attachments->Files as $file){
-	          $file["created"] = date("Y-m-d H:i:s");
-	          $file["modified"] = date("Y-m-d H:i:s");
-	          $file["owner"] = $this->Auth->User['id'];
-	          $file["updated_by"] = $this->Auth->User['id'];
-	          $file["isAttachment"] = "true";
-	          $file["file"] = $file["attachment"];
-	          $file["size"] = $file["bytes"];
-	          $file["encoding"] = $file["encoding"];
-	          $file["meta"] = "";
-	          $file["type"] = "unknown";
-	          if(isset($file["name"])){
-	            $filename = explode('.',$file["name"]);
-	            $file["type"] = end($filename);
-	          } else { $file["name"] = null; }
-	          if(isset($file["filename"])){
-	            $filename = explode('.',$file["filename"]);
-	            $file["type"] = end($filename);
-	          } else { $file["filename"] = null; }
-	          $fileID = $this->saveFile($file);
-	          if($fileID != null || $fileID != ''){ $message["attachments"] .= $fileID.";"; }
-	        }
+					if(isset($this->Settings['plugins']['files']['status']) && $this->Settings['plugins']['files']['status']){
+						$API = new filesAPI();
+		        foreach($msg->Attachments->Files as $file){
+		          $file["isAttachment"] = "true";
+		          $file["file"] = $file["attachment"];
+		          $file["size"] = $file["bytes"];
+		          $file["encoding"] = $file["encoding"];
+		          $file["meta"] = "";
+		          $file["type"] = "unknown";
+		          if(isset($file["name"])){
+		            $filename = explode('.',$file["name"]);
+		            $file["type"] = end($filename);
+		          } else { $file["name"] = null; }
+		          if(isset($file["filename"])){
+		            $filename = explode('.',$file["filename"]);
+		            $file["type"] = end($filename);
+		          } else { $file["filename"] = null; }
+		          $fileID = $API->save($file);
+		          if($fileID != null || $fileID != ''){ $message["attachments"] .= $fileID.";"; }
+		        }
+					}
 	        $message["attachments"] = trim($message["attachments"],';');
 	        $message["created"] = date("Y-m-d H:i:s");
 	        $message["modified"] = date("Y-m-d H:i:s");
 	        $message["owner"] = $this->Auth->User['id'];
 	        $message["updated_by"] = $this->Auth->User['id'];
-	        $messageID = $this->saveMail($message);
+	        $messageID = $this->save($message);
 					foreach(explode(';',$message["attachments"]) as $fileID){
 						$this->createRelationship([
 							'relationship_1' => 'messages',
@@ -147,56 +146,7 @@ class messagesAPI extends CRUDAPI {
     }
   }
 
-  protected function saveFile($file, $from = 'louis@albcie.com'){
-    if(!isset($this->Settings['plugins']['messages']['files']['blacklist'])||(isset($this->Settings['plugins']['messages']['files']['blacklist']) && is_array($this->Settings['plugins']['messages']['files']['blacklist']) && !in_array($file['type'], $this->Settings['plugins']['messages']['files']['blacklist']))){
-      $query = $this->Auth->query('INSERT INTO `files` (
-        `created`,
-        `modified`,
-        `owner`,
-        `updated_by`,
-        `name`,
-        `filename`,
-        `file`,
-        `type`,
-        `size`,
-        `encoding`,
-        `meta`,
-        `isAttachment`
-      ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
-        $file["created"],
-        $file["modified"],
-        $file["owner"],
-        $file["updated_by"],
-        $file["name"],
-        $file["filename"],
-        $file["file"],
-        $file["type"],
-        $file["size"],
-        $file["encoding"],
-        $file["meta"],
-        $file["isAttachment"]
-      );
-      set_time_limit(20);
-      return $query->dump()['insert_id'];
-    } elseif(isset($this->Settings['plugins']['messages']['files']['auto-reply'],$this->Settings['plugins']['messages']['files']['blacklist']) && $this->Settings['plugins']['messages']['files']['auto-reply']) {
-			$message = "Hi, <br>\n
-									an attachment you sent was not authorized.<br>\n
-									<ul><li>".$file["filename"]."</li></ul><br>\n
-									Unauthorized file type:<br>\n
-									<ul>
-									";
-			foreach($this->Settings['plugins']['messages']['files']['blacklist'] as $type){
-				$message .= "<li>".strtoupper($type)."</li>";
-			}
-			$message .= "</ul><br>\n";
-			$this->Auth->Mail->send($from, $message, [
-				"subject" => "UNAUTHORIZED FILE TYPE",
-				"acceptReplies" => false,
-			]);
-		}
-  }
-
-  protected function saveMail($mail){
+  protected function save($mail){
     $query = $this->Auth->query('INSERT INTO `messages` (
       `created`,
       `modified`,
