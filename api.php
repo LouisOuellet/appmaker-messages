@@ -122,12 +122,8 @@ class messagesAPI extends CRUDAPI {
 		            $file["type"] = end($filename);
 		          } else { $file["filename"] = null; }
 		          $fileID = $API->save($file);
-		          if($fileID != null || $fileID != ''){
-								$message["attachments"] .= $fileID.";";
-							}
+		          if($fileID != null || $fileID != ''){ $message["attachments"] .= $fileID.";"; }
 		        }
-					} else {
-						if(isset($this->Settings['debug']) && $this->Settings['debug']){ echo "Plugin files is not enabled\n"; }
 					}
 	        $message["attachments"] = trim($message["attachments"],';');
 	        $message["created"] = date("Y-m-d H:i:s");
