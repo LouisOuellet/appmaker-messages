@@ -105,6 +105,7 @@ class messagesAPI extends CRUDAPI {
 				$messages = $this->Auth->query('SELECT * FROM `messages` WHERE `mid` = ?',$message["mid"])->fetchAll()->all();
 				if(empty($messages)){
 					if(isset($this->Settings['plugins']['files']['status']) && $this->Settings['plugins']['files']['status']){
+						if(isset($this->Settings['debug']) && $this->Settings['debug']){ echo "Saving Files\n"; }
 						$API = new filesAPI();
 		        foreach($msg->Attachments->Files as $file){
 		          $file["isAttachment"] = "true";
@@ -121,12 +122,15 @@ class messagesAPI extends CRUDAPI {
 		            $filename = explode('.',$file["filename"]);
 		            $file["type"] = end($filename);
 		          } else { $file["filename"] = null; }
+							if(isset($this->Settings['debug']) && $this->Settings['debug']){ echo "Saving File: ".$file["filename"]."\n"; }
 		          $fileID = $API->save($file);
 		          if($fileID != null || $fileID != ''){
 								if(isset($this->Settings['debug']) && $this->Settings['debug']){ echo "Saving FileID: ".$fileID."\n"; }
 								$message["attachments"] .= $fileID.";";
 							}
 		        }
+					} else {
+						if(isset($this->Settings['debug']) && $this->Settings['debug']){ echo "Plugin files is not enabled\n"; }
 					}
 	        $message["attachments"] = trim($message["attachments"],';');
 	        $message["created"] = date("Y-m-d H:i:s");
