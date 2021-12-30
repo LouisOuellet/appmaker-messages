@@ -95,16 +95,14 @@ API.Plugins.messages = {
 									html += '</h3>';
 								}
 								html += '<div class="timeline-body">'+dataset.body_unquoted+'</div>';
+								html += '<div class="timeline-footer bg-dark">';
+									html += '<a class="btn my-2"></a>';
+									html += '<button type="button" class="btn btn-primary btn-sm float-right"><i class="fas fa-reply mr-1"></i>Reply</button>';
+								html += '</div>';
 							html += '</div>';
 						html += '</div>';
 						layout.timeline.find('div.time-label[data-dateus="'+dateUS+'"]').after(html);
-						var element = layout.timeline.find('[data-plugin][data-id="'+dataset.id+'"]');
-						var html = '';
-						html += '<div class="timeline-footer bg-dark">';
-							html += '<a class="btn my-2"></a>';
-							html += '<button type="button" class="btn btn-primary btn-sm float-right"><i class="fas fa-reply mr-1"></i>Reply</button>';
-						html += '</div>';
-						element.find('.timeline-item').append(html);
+						var element = layout.timeline.find('[data-plugin="messages"][data-id="'+dataset.id+'"]');
 						element.find('time').timeago();
 						element.find('.timeline-footer').find('button').click(function(){
 							var content = "\n\n"+'<br><br><blockquote>'+element.find('.timeline-body').html()+'</blockquote>';
