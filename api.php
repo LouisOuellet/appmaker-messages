@@ -111,6 +111,7 @@ class messagesAPI extends CRUDAPI {
 		          $file["file"] = $file["attachment"];
 		          $file["size"] = $file["bytes"];
 		          $file["encoding"] = $file["encoding"];
+		          $file["dirname"] = "";
 		          $file["meta"] = "";
 		          $file["type"] = "unknown";
 		          if(isset($file["name"])){
