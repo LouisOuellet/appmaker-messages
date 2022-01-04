@@ -11,7 +11,7 @@ class messagesHelper extends Helper {
 						if($recordDetail->numRows() > 0){
 							$recordDetail = $recordDetail->fetchAll()->All()[0];
 							if($details['relationship'] == 'files'){ unset($recordDetail['file']); }
-							$relations[$relation['relationship']][$relation['link_to']][$details['relationship']][$recordDetail['id']] = $recordDetail;
+							$relations[$relation['relationship']][$relation['link_to']][$details['relationship']][$details['link_to']] = $recordDetail;
 						}
 					}
 				}
