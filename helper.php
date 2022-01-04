@@ -7,7 +7,6 @@ class messagesHelper extends Helper {
 			foreach($links as $details){
 				if(in_array($details['relationship'],['files','contacts'])){
 					if(isset($this->Settings['plugins'][$details['relationship']]['status']) && $this->Settings['plugins'][$details['relationship']]['status']){
-						echo'SELECT * FROM `'.$details['relationship'].'` WHERE `id` = ?';
 						$recordDetail = $this->Auth->query('SELECT * FROM `'.$details['relationship'].'` WHERE `id` = ?',$details['link_to']);
 						if($recordDetail->numRows() > 0){
 							$recordDetail = $recordDetail->fetchAll()->All()[0];
