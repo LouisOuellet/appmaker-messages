@@ -2,52 +2,14 @@
 class messagesAPI extends CRUDAPI {
 
 	public function read($request = null, $data = null){
-		if(($data != null)||($data == null)){
+		if(isset($data)){
 			if(!is_array($data)){ $data = json_decode($data, true); }
-			$messages = $this->Auth->query('SELECT * FROM `messages`')->fetchAll();
-			if($messages != null){
-				$messages = $messages->all();
-				// Init Result
-				$result = [];
-				foreach($messages as $key => $lead){ $result[$key] = $this->convertToDOM($lead); }
-				$headers = $this->Auth->getHeaders('messages',true);
-				foreach($headers as $key => $header){
-					if(!$this->Auth->valid('field',$header,1,'messages')){
-						foreach($messages as $row => $values){
-							unset($messages[$row][$header]);
-							unset($result[$row][$header]);
-						}
-						unset($headers[$key]);
-					}
-				}
-				$results = [
-					"success" => $this->Language->Field["This request was successfull"],
-					"request" => $request,
-					"data" => $data,
-					"output" => [
-						'headers' => $headers,
-						'raw' => $messages,
-						'dom' => $result,
-					],
-				];
-			} else {
-				$results = [
-					"error" => $this->Language->Field["Unable to complete the request"],
-					"request" => $request,
-					"data" => $data,
-					"output" => [
-						"messages" => $messages,
-					],
-				];
-			}
-		} else {
-			$results = [
-				"error" => $this->Language->Field["Unable to complete the request"],
-				"request" => $request,
-				"data" => $data,
-			];
+			$this->Auth->setLimit(0);
+			// Load Messages
+			$B3s = parent::read('messages', $data);
+			// Return
+			return $B3s;
 		}
-		return $results;
 	}
 
   public function getMail($host,$port,$encryption = "SSL",$username,$password){
