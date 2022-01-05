@@ -82,14 +82,7 @@ API.Plugins.messages = {
 									html += '<h3 class="timeline-header p-0 collapse" id="message-files-'+dataset.id+'">';
 										if(API.Helper.isSet(dataset,['files'])){
 											for(var [index, file] of Object.entries(dataset.files)){
-												html += '<div class="btn-group m-1" data-id="'+file.id+'">';
-													html += '<button type="button" class="btn btn-xs btn-primary" data-action="details">';
-														html += '<i class="fas fa-file mr-1"></i>'+file.name;
-													html += '</button>';
-													html += '<button type="button" class="btn btn-xs btn-warning" data-action="download">';
-														html += '<i class="fas fa-file-download mr-1"></i>'+API.Helper.getFileSize(file.size,true,2);
-													html += '</button>';
-												html += '</div>';
+												html += API.Plugins.files.Layouts.details.GUI.button(file,{download:API.Auth.validate('custom', url.searchParams.get("p")+'_files', 1),download:API.Auth.validate('custom', url.searchParams.get("p")+'_files', 4)});
 											}
 										}
 									html += '</h3>';
@@ -102,6 +95,14 @@ API.Plugins.messages = {
 							html += '</div>';
 						html += '</div>';
 						layout.timeline.find('div.time-label[data-dateus="'+dateUS+'"]').after(html);
+						layout.timeline.find('div[data-plugin="messages"][data-id="'+dataset.id+'"] h3[id="message-files-'+dataset.id+'"] button').off().click(function(){
+							var action = $(this).attr('data-action');
+							switch(action){
+								case"view": API.Plugins.files.view($(this).attr('data-id'));break;
+								case"download": API.Plugins.files.download($(this).attr('data-id'));break;
+								case"delete": API.Plugins.files.delete($(this).attr('data-id'),$(this).attr('data-name'),layout);break;
+							}
+						});
 						var element = layout.timeline.find('[data-plugin="messages"][data-id="'+dataset.id+'"]');
 						element.find('time').timeago();
 						element.find('.timeline-footer').find('button').click(function(){
