@@ -6,9 +6,9 @@ class messagesAPI extends CRUDAPI {
 			if(!is_array($data)){ $data = json_decode($data, true); }
 			$this->Auth->setLimit(0);
 			// Load Messages
-			$B3s = parent::read('messages', $data);
+			$messages = parent::read('messages', $data);
 			// Return
-			return $B3s;
+			return $messages;
 		}
 	}
 
