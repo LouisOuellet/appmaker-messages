@@ -60,12 +60,12 @@ API.Plugins.messages = {
 								if(API.Helper.isSet(dataset,['contacts']) || API.Helper.isSet(dataset,['files'])){
 									html += '<h3 class="timeline-header p-0">';
 										html += '<div class="btn-group btn-block">';
-											if(API.Helper.isSet(dataset,['contacts'])){
+											if(API.Helper.isSet(dataset,['contacts']) && API.Helper.isSet(API,['Plugins','contacts'])){
 												html += '<button type="button" class="btn btn-flat btn-xs btn-primary" data-toggle="collapse" href="#message-contacts-'+dataset.id+'">';
 													html += '<i class="fas fa-address-card mr-1"></i>View Contacts';
 												html += '</button>';
 											}
-											if(API.Helper.isSet(dataset,['files'])){
+											if(API.Helper.isSet(dataset,['files']) && API.Helper.isSet(API,['Plugins','files'])){
 												html += '<button type="button" class="btn btn-flat btn-xs btn-warning" data-toggle="collapse" href="#message-files-'+dataset.id+'">';
 													html += '<i class="fas fa-file mr-1"></i>View Files';
 												html += '</button>';
@@ -73,14 +73,14 @@ API.Plugins.messages = {
 										html += '</div>';
 									html += '</h3>';
 									html += '<h3 class="timeline-header p-0 collapse" id="message-contacts-'+dataset.id+'">';
-										if(API.Helper.isSet(dataset,['contacts'])){
+										if(API.Helper.isSet(dataset,['contacts']) && API.Helper.isSet(API,['Plugins','contacts'])){
 											for(var [index, contact] of Object.entries(dataset.contacts)){
 												html += '<button type="button" class="btn btn-xs btn-primary m-1" data-contact="'+contact.email+'"><i class="fas fa-address-card mr-1"></i>'+contact.email+'</button>';
 											}
 										}
 									html += '</h3>';
 									html += '<h3 class="timeline-header p-0 collapse" id="message-files-'+dataset.id+'">';
-										if(API.Helper.isSet(dataset,['files'])){
+										if(API.Helper.isSet(dataset,['files']) && API.Helper.isSet(API,['Plugins','files'])){
 											for(var [index, file] of Object.entries(dataset.files)){
 												html += API.Plugins.files.Layouts.details.GUI.button(file,{download:API.Auth.validate('custom', url.searchParams.get("p")+'_files', 1),download:API.Auth.validate('custom', url.searchParams.get("p")+'_files', 4)});
 											}
@@ -95,14 +95,27 @@ API.Plugins.messages = {
 							html += '</div>';
 						html += '</div>';
 						layout.timeline.find('div.time-label[data-dateus="'+dateUS+'"]').after(html);
-						layout.timeline.find('div[data-plugin="messages"][data-id="'+dataset.id+'"] h3[id="message-files-'+dataset.id+'"] button').off().click(function(){
-							var action = $(this).attr('data-action');
-							switch(action){
-								case"view": API.Plugins.files.view($(this).attr('data-id'));break;
-								case"download": API.Plugins.files.download($(this).attr('data-id'));break;
-								case"delete": API.Plugins.files.delete($(this).attr('data-id'),$(this).attr('data-name'),layout);break;
-							}
-						});
+						if(API.Helper.isSet(API,['Plugins','files'])){
+							layout.timeline.find('div[data-plugin="messages"][data-id="'+dataset.id+'"] h3[id="message-files-'+dataset.id+'"] button').off().click(function(){
+								var action = $(this).attr('data-action');
+								switch(action){
+									case"view": API.Plugins.files.view($(this).attr('data-id'));break;
+									case"download": API.Plugins.files.download($(this).attr('data-id'));break;
+									case"delete": API.Plugins.files.delete($(this).attr('data-id'),$(this).attr('data-name'),layout);break;
+								}
+							});
+						}
+						if(API.Helper.isSet(API,['Plugins','contacts'])){
+							layout.timeline.find('div[data-plugin="messages"][data-id="'+dataset.id+'"] h3[id="message-contacts-'+dataset.id+'"] button').off().click(function(){
+								if(API.Helper.isSet(layout,['content','contacts'])){
+									contact = $(this).attr('data-contact').toLowerCase();
+									layout.content.contacts.find('input').val(contact);
+									layout.tabs.contacts.find('a').tab('show');
+									layout.content.contacts.find('[data-csv]').hide();
+									layout.content.contacts.find('[data-csv*="'+contact+'"]').each(function(){ $(this).show(); });
+								}
+							});
+						}
 						var element = layout.timeline.find('[data-plugin="messages"][data-id="'+dataset.id+'"]');
 						element.find('time').timeago();
 						element.find('.timeline-footer').find('button').click(function(){
