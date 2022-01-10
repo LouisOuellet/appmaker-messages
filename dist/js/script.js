@@ -13,7 +13,7 @@ API.Plugins.messages = {
 						for(const [key, value] of Object.entries(dataset.output.dom)){ API.Helper.set(API.Contents,['data','dom','messages',value.id],value); }
 						for(const [key, value] of Object.entries(dataset.output.raw)){ API.Helper.set(API.Contents,['data','raw','messages',value.id],value); }
 						API.Builder.table(card.children('.card-body'), dataset.output.dom, {
-							headers:dataset.output.headers,
+							headers:['id','uid','account','folder','from','subject_stripped','meta'],
 							id:'messagesIndex',
 							modal:true,
 							key:'id',
