@@ -16,12 +16,10 @@ class messagesHelper extends Helper {
 				$result['meta'] = $this->URL->parse($result['meta']);
 			}
 			if(isset($result['body_original'])){
-				$result['body_original'] = str_replace("\n",'<br>',$result['body_original']);
-				$result['body_original'] = str_replace("\r",'<br>',$result['body_original']);
+				$result['body_original'] = str_replace(['\n','\r'],'<br>',$result['body_original']);
 			}
 			if(isset($result['body_unquoted'])){
-				$result['body_unquoted'] = str_replace("\n",'<br>',$result['body_unquoted']);
-				$result['body_unquoted'] = str_replace("\r",'<br>',$result['body_unquoted']);
+				$result['body_unquoted'] = str_replace(['\n','\r'],'<br>',$result['body_unquoted']);
 			}
 		}
     return $result;
