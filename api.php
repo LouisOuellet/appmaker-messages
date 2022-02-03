@@ -37,14 +37,12 @@ class messagesAPI extends CRUDAPI {
           "meta" => json_encode($msg->Subject->Meta, JSON_PRETTY_PRINT),
           "subject_original" => $msg->Subject->Full,
           "subject_stripped" => $msg->Subject->PLAIN,
-					"body_original" => preg_replace("/\n\s+/", "\n", rtrim(html_entity_decode(strip_tags($msg->Body->Content)))),
-					"body_unquoted" => preg_replace("/\n\s+/", "\n", rtrim(html_entity_decode(strip_tags($msg->Body->Unquoted)))),
-          // "body_original" => strip_tags($msg->Body->Content),
-          // "body_unquoted" => strip_tags($msg->Body->Unquoted),
+					// "body_original" => preg_replace("/\n\s+/", "\n", rtrim(html_entity_decode(strip_tags($msg->Body->Content)))),
+					// "body_unquoted" => preg_replace("/\n\s+/", "\n", rtrim(html_entity_decode(strip_tags($msg->Body->Unquoted)))),
+          "body_original" => strip_tags($msg->Body->Content),
+          "body_unquoted" => strip_tags($msg->Body->Unquoted),
           "attachments" => "",
         ];
-				var_dump(preg_replace("/\n\s+/", "\n", rtrim(html_entity_decode(strip_tags($msg->Body->Content)))));
-				var_dump($msg->Body->Content);
         if(isset($msg->Header->in_reply_to)){ $message["reply_to_id"] = str_replace(['>','<'],['',''],$msg->Header->in_reply_to); }
         if(isset($msg->Header->references)){
           foreach(explode(' ',$msg->Header->references) as $reference){
