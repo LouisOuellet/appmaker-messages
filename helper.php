@@ -12,14 +12,8 @@ class messagesHelper extends Helper {
 
 	public function convertToDOM($result){
 		if((!empty($result))&&(is_array($result))){
-			foreach($result as $key => $value){
-				switch($key){
-					case"meta":
-						$result[$key] = $this->URL->parse($value);
-						break;
-					default:
-						break;
-				}
+			if(isset($result['meta'])){
+				$result['meta'] = $this->URL->parse($value);
 			}
 		}
     return $result;
