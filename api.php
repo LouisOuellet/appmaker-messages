@@ -37,8 +37,8 @@ class messagesAPI extends CRUDAPI {
           "meta" => json_encode($msg->Subject->Meta, JSON_PRETTY_PRINT),
           "subject_original" => $msg->Subject->Full,
           "subject_stripped" => $msg->Subject->PLAIN,
-          "body_original" => $msg->Body->Content,
-          "body_unquoted" => $msg->Body->Unquoted,
+          "body_original" => strip_tags($msg->Body->Content),
+          "body_unquoted" => strip_tags($msg->Body->Unquoted),
           "attachments" => "",
         ];
         if(isset($msg->Header->in_reply_to)){ $message["reply_to_id"] = str_replace(['>','<'],['',''],$msg->Header->in_reply_to); }
