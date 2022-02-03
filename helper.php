@@ -5,8 +5,8 @@ class messagesHelper extends Helper {
     if(isset($relations['messages'])){
 			foreach($relations['messages'] as $id => $message){
 				$relations['messages'][$id]['meta'] = $this->URL->parse($message['meta']);
-				$relations['messages'][$id]['body_original'] = str_replace(['\n','\r'],'<br>',$message['body_original']);
-				$relations['messages'][$id]['body_unquoted'] = str_replace(['\n','\r'],'<br>',$message['body_unquoted']);
+				$relations['messages'][$id]['body_original'] = str_replace(['\n','\r',"\n","\r"],'<br>',$message['body_original']);
+				$relations['messages'][$id]['body_unquoted'] = str_replace(['\n','\r',"\n","\r"],'<br>',$message['body_unquoted']);
 			}
     }
     return $relations;
@@ -18,10 +18,10 @@ class messagesHelper extends Helper {
 				$result['meta'] = $this->URL->parse($result['meta']);
 			}
 			if(isset($result['body_original'])){
-				$result['body_original'] = str_replace(['\n','\r'],'<br>',$result['body_original']);
+				$result['body_original'] = str_replace(['\n','\r',"\n","\r"],'<br>',$result['body_original']);
 			}
 			if(isset($result['body_unquoted'])){
-				$result['body_unquoted'] = str_replace(['\n','\r'],'<br>',$result['body_unquoted']);
+				$result['body_unquoted'] = str_replace(['\n','\r',"\n","\r"],'<br>',$result['body_unquoted']);
 			}
 		}
     return $result;
