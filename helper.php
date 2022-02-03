@@ -5,8 +5,8 @@ class messagesHelper extends Helper {
     if(isset($relations['messages'])){
 			foreach($relations['messages'] as $id => $message){
 				$relations['messages'][$id]['meta'] = $this->URL->parse($message['meta']);
-				$relations['messages'][$id]['body_original'] = str_replace(['\n','\r'],'<br>',$result['body_original']);
-				$relations['messages'][$id]['body_unquoted'] = str_replace(['\n','\r'],'<br>',$result['body_unquoted']);
+				$relations['messages'][$id]['body_original'] = str_replace(['\n','\r'],'<br>',$message['body_original']);
+				$relations['messages'][$id]['body_unquoted'] = str_replace(['\n','\r'],'<br>',$message['body_unquoted']);
 			}
     }
     return $relations;
