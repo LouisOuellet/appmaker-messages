@@ -15,8 +15,6 @@ class messagesHelper extends Helper {
 			foreach($result as $key => $value){
 				switch($key){
 					case"meta":
-						var_dump($result[$key]);
-						var_dump($value);
 						$result[$key] = $this->URL->parse($value);
 						break;
 					default:
