@@ -15,6 +15,9 @@ class messagesHelper extends Helper {
 			if(isset($result['meta'])){
 				$result['meta'] = $this->URL->parse($result['meta']);
 			}
+			if(isset($result['body_original'])){
+				unset($result['body_original']);
+			}
 		}
     return $result;
   }
