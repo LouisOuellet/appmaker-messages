@@ -84,8 +84,17 @@ class messagesAPI extends CRUDAPI {
 		            $filename = explode('.',$file["filename"]);
 		            $file["type"] = end($filename);
 		          } else { $file["filename"] = null; }
-		          $fileID = $API->save($file);
-		          if($fileID != null || $fileID != ''){ $message["attachments"] .= $fileID.";"; }
+							if($file["filename"] == null && $file["name"] != null){ $file["filename"] = $file["name"]; }
+							if($file["name"] == null && $file["filename"] != null){ $file["name"] = $file["filename"]; }
+							$file["id"] = $API->save($file);
+		          if($file["id"] != null || $file["id"] != ''){
+								$message["attachments"] .= $file["id"].";";
+								if($file["filename"] == null || $file["name"] == null){
+									if($file["filename"] == null){ $file["filename"] = $file["id"].'.'.$file["type"]; }
+									if($file["name"] == null){ $file["filename"] = $file["id"].'.'.$file["type"]; }
+									$API->save($file);
+								}
+							}
 		        }
 					}
 	        $message["attachments"] = trim($message["attachments"],';');
