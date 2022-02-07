@@ -136,6 +136,8 @@ class messagesAPI extends CRUDAPI {
 			$mail["body_original"] = trim($mail["body_original"],"<br>");
 			$mail["body_unquoted"] = trim($mail["body_unquoted"],"<br>");
 		}
+		var_dump($mail["body_original"]);
+		exit;
     $query = $this->Auth->query('INSERT INTO `messages` (
       `created`,
       `modified`,
