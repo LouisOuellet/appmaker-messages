@@ -1,29 +1,3 @@
 {
-    "messages": [
-        {
-            "id": 100000,
-            "created": "2022-02-07 15:14:54",
-            "modified": "2022-02-07 15:14:54",
-            "owner": "1",
-            "updated_by": "1",
-            "account": "customs@albcie.com",
-            "folder": "INBOX",
-            "mid": "202202072010.217KA3nU048209@itmapp09.prd.dsg-internal",
-            "uid": "31298",
-            "reply_to_id": "",
-            "reference_id": "",
-            "sender": "pars@albcustoms.com",
-            "from": "pars@albcustoms.com",
-            "to": "create@albcie.com",
-            "cc": "",
-            "bcc": "",
-            "meta": "[\n    \"TR#10013000791684\",\n    \"8076184007070\",\n    \"CROSSING#0395\",\n    \"LOCATION#2619\",\n    \"MEDU4161053,MSCU5785340,TCKU4542103\",\n    \"PO#20114446\",\n    \"024\",\n    \"PKG#1800\",\n    \"WEIGHT#82,800.00KGM\",\n    \"VENDOR#LEWA-SG\",\n    \"CLIENT#CANAC1313\",\n    \"SBRN#804048395RM0001\"\n]",
-            "subject_original": "TR#10013000791684 CCN# 8076184007070 CROSSING#0395 LOCATION#2619 CN# MEDU4161053,MSCU5785340,TCKU4542103 PO#20114446 INV#LAS 21\/024 PKG#1800 WEIGHT#82,800.00KGM VENDOR#LEWA-SG CLIENT#CANAC1313 SBRN#804048395RM0001 BILLING#%bill_inv_number%",
-            "subject_stripped": "TR#10013000791684 CCN# 8076184007070 CROSSING#0395 LOCATION#2619 CN# MEDU4161053,MSCU5785340,TCKU4542103 PO#20114446 INV#LAS 21\/024 PKG#1800 WEIGHT#82,800.00KGM VENDOR#LEWA-SG CLIENT#CANAC1313 SBRN#804048395RM0001 BILLING#%bill_inv_number%",
-            "body_original": "Hi\r\nYour shipment has been released. Here are some details:\r\nDetails\r\n================================================\r\nClient Code : CANAC1313\r\nConsignee : CANAC MARQUIS GRENIER LTEE\r\nAddress : 5355 BOUL DES GRADINS\r\nCity : QUEBEC\r\nPostal Code : G2J 1C8\r\nProvince : QC\r\nCountry : CA\r\nTransaction Number : 10013000791684\r\nCargo Control Number : 8076184007070\r\nContainer Number(s) : MEDU4161053\r\nPO(s) : 20114446\r\nINV(s) : LAS 21\/024\r\nNumber of Packages : 1800\r\nWeight : 82,800.00 KGM\r\nPlease contact pars@albcustoms.com for any inqueries.\r\nRegards\r\nALB Team",
-            "body_unquoted": "Hi\r\nYour shipment has been released. Here are some details:\r\nDetails\r\n================================================\r\nClient Code : CANAC1313\r\nConsignee : CANAC MARQUIS GRENIER LTEE\r\nAddress : 5355 BOUL DES GRADINS\r\nCity : QUEBEC\r\nPostal Code : G2J 1C8\r\nProvince : QC\r\nCountry : CA\r\nTransaction Number : 10013000791684\r\nCargo Control Number : 8076184007070\r\nContainer Number(s) : MEDU4161053\r\nPO(s) : 20114446\r\nINV(s) : LAS 21\/024\r\nNumber of Packages : 1800\r\nWeight : 82,800.00 KGM\r\nPlease contact pars@albcustoms.com for any inqueries.\r\nRegards\r\nALB Team",
-            "attachments": "100000",
-            "isAttached": "true"
-        }
-    ]
+    "messages": []
 }
