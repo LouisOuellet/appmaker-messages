@@ -154,11 +154,14 @@ class messagesAPI extends CRUDAPI {
 			// $mail["body_original"] = trim($mail["body_original"],"<br>");
 			// $mail["body_unquoted"] = trim($mail["body_unquoted"],"<br>");
 		}
-		if($this->isHTML($html)){
+		if($this->isHTML($mail["body_original"])){
 			$mail["body_original"] = trim(str_replace("<br><br>","<br>",$mail["body_original"]),"<br>");
-			$mail["body_unquoted"] = trim(str_replace("<br><br>","<br>",$mail["body_unquoted"]),"<br>");
 		} else {
 			$mail["body_original"] = trim(str_replace("\r\n\r\n","\r\n",$mail["body_original"]),"\r\n");
+		}
+		if($this->isHTML($mail["body_unquoted"])){
+			$mail["body_unquoted"] = trim(str_replace("<br><br>","<br>",$mail["body_unquoted"]),"<br>");
+		} else {
 			$mail["body_unquoted"] = trim(str_replace("\r\n\r\n","\r\n",$mail["body_unquoted"]),"\r\n");
 		}
 		var_dump($mail["body_original"]);
