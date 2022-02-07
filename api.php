@@ -156,8 +156,8 @@ class messagesAPI extends CRUDAPI {
 		if($this->isHTML($mail["body_original"])){
 			var_dump($mail["body_original"]);
 			var_dump(str_replace("<br><br>","<br>",$mail["body_original"]));
-			exit;
 			var_dump(trim(str_replace("<br><br>","<br>",$mail["body_original"]),"<br>"));
+			exit;
 			$mail["body_original"] = trim(str_replace("<br><br>","<br>",$mail["body_original"]),"<br>");
 		} else {
 			// $mail["body_original"] = trim(str_replace("\r\n\r\n","\r\n",$mail["body_original"]),"\r\n");
