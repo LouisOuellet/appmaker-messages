@@ -137,34 +137,17 @@ class messagesAPI extends CRUDAPI {
 		if(isset($this->Settings['plugins']['messages']['settings']['stipHTML']) && $this->Settings['plugins']['messages']['settings']['stipHTML']){
 			$mail["body_original"] = $this->toText($mail["body_original"]);
 			$mail["body_unquoted"] = $this->toText($mail["body_unquoted"]);
-			// $mail["body_original"] = preg_replace("/\n\s+/", "\n", rtrim(html_entity_decode(strip_tags($mail["body_original"]))));
-			// $mail["body_unquoted"] = preg_replace("/\n\s+/", "\n", rtrim(html_entity_decode(strip_tags($mail["body_unquoted"]))));
-			// $mail["body_original"] = trim(str_replace("<br>","\r\n",str_replace(["\r\n","\n","<br>"],"<br>",$mail["body_original"])),"\r\n");
-			// $mail["body_unquoted"] = trim(str_replace("<br>","\r\n",str_replace(["\r\n","\n","<br>"],"<br>",$mail["body_unquoted"])),"\r\n");
-			// $mail["body_original"] = str_replace("\r\n\r\n","\r\n",$mail["body_original"]);
-			// $mail["body_unquoted"] = str_replace("\r\n\r\n","\r\n",$mail["body_unquoted"]);
-		// } else {
-			// $mail["body_original"] = str_replace(["\r\n","\n","\r"],"<br>",$mail["body_original"]);
-			// $mail["body_unquoted"] = str_replace(["\r\n","\n","\r"],"<br>",$mail["body_unquoted"]);
-			// $mail["body_original"] = str_replace("<br><br>","<br>",$mail["body_original"]);
-			// $mail["body_unquoted"] = str_replace("<br><br>","<br>",$mail["body_unquoted"]);
-			// $mail["body_original"] = str_replace(["</body","ody>"],"<br>",$mail["body_original"]);
-			// $mail["body_unquoted"] = str_replace(["</body","ody>"],"<br>",$mail["body_unquoted"]);
-			// $mail["body_original"] = trim($mail["body_original"],"<br>");
-			// $mail["body_unquoted"] = trim($mail["body_unquoted"],"<br>");
 		}
 		if($this->isHTML($mail["body_original"])){
 			$mail["body_original"] = preg_replace('/(<br>)+$/', '', str_replace("<br><br>","<br>",$mail["body_original"]));
 		} else {
-			// $mail["body_original"] = trim(str_replace("\r\n\r\n","\r\n",$mail["body_original"]),"\r\n");
+			$mail["body_original"] = trim(str_replace("\r\n\r\n","\r\n",$mail["body_original"]),"\r\n");
 		}
-		// if($this->isHTML($mail["body_unquoted"])){
-		// 	$mail["body_unquoted"] = trim(str_replace("<br><br>","<br>",$mail["body_unquoted"]),"<br>");
-		// } else {
-		// 	$mail["body_unquoted"] = trim(str_replace("\r\n\r\n","\r\n",$mail["body_unquoted"]),"\r\n");
-		// }
-		var_dump($mail["body_original"]);
-		exit;
+		if($this->isHTML($mail["body_unquoted"])){
+			$mail["body_unquoted"] = preg_replace('/(<br>)+$/', '', str_replace("<br><br>","<br>",$mail["body_unquoted"]));
+		} else {
+			$mail["body_unquoted"] = trim(str_replace("\r\n\r\n","\r\n",$mail["body_unquoted"]),"\r\n");
+		}
     $query = $this->Auth->query('INSERT INTO `messages` (
       `created`,
       `modified`,
