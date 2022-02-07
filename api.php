@@ -127,6 +127,8 @@ class messagesAPI extends CRUDAPI {
 			$mail["body_original"] = str_replace("\r\n\r\n","\r\n",$mail["body_original"]);
 			$mail["body_unquoted"] = str_replace("\r\n\r\n","\r\n",$mail["body_unquoted"]);
 		} else {
+			$mail["body_original"] = str_replace(["\r\n","\n","\r"],"<br>",$mail["body_original"]);
+			$mail["body_unquoted"] = str_replace(["\r\n","\n","\r"],"<br>",$mail["body_unquoted"]);
 			$mail["body_original"] = str_replace("<br><br>","<br>",$mail["body_original"]);
 			$mail["body_unquoted"] = str_replace("<br><br>","<br>",$mail["body_unquoted"]);
 		}
