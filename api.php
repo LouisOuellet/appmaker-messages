@@ -119,6 +119,8 @@ class messagesAPI extends CRUDAPI {
   }
 
   protected function save($mail){
+		var_dump($mail["body_original"]);
+		exit;
 		if(isset($this->Settings['plugins']['messages']['settings']['stipHTML']) && $this->Settings['plugins']['messages']['settings']['stipHTML']){
 			$mail["body_original"] = preg_replace("/\n\s+/", "\n", rtrim(html_entity_decode(strip_tags($mail["body_original"]))));
 			$mail["body_unquoted"] = preg_replace("/\n\s+/", "\n", rtrim(html_entity_decode(strip_tags($mail["body_unquoted"]))));
@@ -136,14 +138,6 @@ class messagesAPI extends CRUDAPI {
 			$mail["body_original"] = trim($mail["body_original"],"<br>");
 			$mail["body_unquoted"] = trim($mail["body_unquoted"],"<br>");
 		}
-		echo "\n<br>";
-		echo "\n<br>";
-		echo "\n<br>";
-		echo "\n<br>";
-		echo "\n<br>";
-		echo "\n<br>";
-		var_dump($mail["body_original"]);
-		exit;
     $query = $this->Auth->query('INSERT INTO `messages` (
       `created`,
       `modified`,
