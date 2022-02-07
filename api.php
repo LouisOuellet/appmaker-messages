@@ -135,7 +135,6 @@ class messagesAPI extends CRUDAPI {
 
   protected function save($mail){
 		var_dump($mail["body_original"]);
-		exit;
 		if(isset($this->Settings['plugins']['messages']['settings']['stipHTML']) && $this->Settings['plugins']['messages']['settings']['stipHTML']){
 			$mail["body_original"] = $this->toText($mail["body_original"]);
 			$mail["body_unquoted"] = $this->toText($mail["body_unquoted"]);
