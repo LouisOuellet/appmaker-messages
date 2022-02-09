@@ -146,14 +146,13 @@ class messagesAPI extends CRUDAPI {
 						var_dump($file);
 						if($file){ $src['new'] = $file; }
 					}
-					// $image->setAttribute('src', $src['new']);
-					// $image->setAttribute('data-src', $src['old']);
-					// $image->addStyle('max-width:', '500px;');
+					$image->setAttribute('src', $src['new']);
+					$image->setAttribute('data-src', $src['old']);
+					$image->addStyle('max-width:', '500px;');
 					// $node = $a->cloneNode();
 					// $image->parentNode->replaceChild($node,$image);
 					// $node->appendChild($image);
 				}
-				var_dump($src);
 			}
 			// return $document->saveHTML();
 			return $html;
