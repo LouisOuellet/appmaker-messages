@@ -132,9 +132,9 @@ class messagesAPI extends CRUDAPI {
 	protected function fixIMG($html,$files){
 		if(!empty($files)){
 			$document = new DOMDocument();
-			// libxml_use_internal_errors(true);
+			libxml_use_internal_errors(true);
 			$document->loadHTML($this->convertHTMLSymbols($html));
-			// libxml_use_internal_errors(false);
+			libxml_use_internal_errors(false);
 			$images = $document->getElementsByTagName('img');
 			foreach($images as $key => $image){
 				$a = $document->createElement('a');
@@ -150,7 +150,8 @@ class messagesAPI extends CRUDAPI {
 				$image->parentNode->replaceChild($a,$image);
 				$a->appendChild($image);
 			}
-			return $document->saveHTML();
+			// return $document->saveHTML();
+			return $html;
 		} else { return $html; }
 	}
 
