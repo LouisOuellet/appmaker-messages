@@ -67,7 +67,6 @@ class messagesAPI extends CRUDAPI {
 				$messages = $this->Auth->query('SELECT * FROM `messages` WHERE `mid` = ?',$message["mid"])->fetchAll()->all();
 				if(empty($messages)){
 					if(isset($this->Settings['plugins']['files']['status']) && $this->Settings['plugins']['files']['status']){
-						$API = new filesAPI();
 		        foreach($msg->Attachments->Files as $file){
 		          $file["isAttachment"] = "true";
 		          $file["file"] = $file["attachment"];
@@ -86,18 +85,19 @@ class messagesAPI extends CRUDAPI {
 		          } else { $file["filename"] = null; }
 							if($file["filename"] == null && $file["name"] != null){ $file["filename"] = $file["name"]; }
 							if($file["name"] == null && $file["filename"] != null){ $file["name"] = $file["filename"]; }
-							$file["id"] = $API->save($file);
+							$file["id"] = $this->Helper->files->save($file);
 		          if($file["id"] != null || $file["id"] != ''){
 								$message["attachments"] .= $file["id"].";";
 								if($file["filename"] == null || $file["name"] == null){
 									if($file["filename"] == null){ $file["filename"] = $file["id"].'.'.$file["type"]; }
 									if($file["name"] == null){ $file["filename"] = $file["id"].'.'.$file["type"]; }
-									$API->save($file);
+									$this->Helper->files->save($file);
+									$this->Helper->files->write($file);
 								}
 							}
 		        }
+		        $message["attachments"] = trim($message["attachments"],';');
 					}
-	        $message["attachments"] = trim($message["attachments"],';');
 	        $message["created"] = date("Y-m-d H:i:s");
 	        $message["modified"] = date("Y-m-d H:i:s");
 	        $message["owner"] = $this->Auth->User['id'];
@@ -117,6 +117,21 @@ class messagesAPI extends CRUDAPI {
       }
     }
   }
+
+	protected function imgTag($message){
+		$files = explode(';',trim($message['attachments'],';'));
+		$body['original'] = new DOMDocument();
+		$body['unquoted'] = new DOMDocument();
+		libxml_use_internal_errors(true);
+		$body['original']->loadHTML($message['body_original']);
+		$body['unquoted']->loadHTML($message['body_unquoted']);
+		libxml_use_internal_errors(false);
+		$images = $body['original']->getElementsByTagName('img');
+		$elements = $dom->getElementsByTagName('foo');
+		foreach($images as $image){
+	    if(isset($this->Settings['plugins']['files']['status']) && $this->Settings['plugins']['files']['status']){} else {}
+		}
+	}
 
 	protected function isHTML($string){
 	 return $string != strip_tags($string) ? true:false;
