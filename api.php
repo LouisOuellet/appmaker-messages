@@ -149,7 +149,9 @@ class messagesAPI extends CRUDAPI {
 					$image->setAttribute('data-src', $src['old']);
 					$style = $image->getAttribute('style');
 					$image->setAttribute('style', 'max-width: 500px;'.$style);
-					// $node = $a->cloneNode();
+					$node = $a->cloneNode();
+					$node->setAttribute('href', $src['new']);
+					$node->setAttribute('target', '_blank');
 					// $image->parentNode->replaceChild($node,$image);
 					// $node->appendChild($image);
 					var_dump([
@@ -157,6 +159,10 @@ class messagesAPI extends CRUDAPI {
 						"style" => [
 							"old" => $style,
 							"new" => $image->getAttribute('style'),
+						],
+						"node" => [
+							"href" => $node->getAttribute('href'),
+							"target" => $node->getAttribute('target'),
 						],
 					]);
 				}
