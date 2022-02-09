@@ -145,7 +145,7 @@ class messagesAPI extends CRUDAPI {
 					$file = $this->Helper->files->cache($files[$key]);
 					if($file){ $src['new'] = $file; }
 				}
-				var_dump($src['new']);
+				var_dump($src);
 				// $image->setAttribute('src', $src['new']);
 				// $image->setAttribute('data-src', $src['old']);
 				// $image->addStyle('max-width:', '500px;');
@@ -166,6 +166,8 @@ class messagesAPI extends CRUDAPI {
 		}
 		if($this->isHTML($mail["body_original"])){
 			$mail['body_original'] = $this->fixIMG($mail['body_original'],$files);
+			echo "\nObtomized!!!!!!\n";
+			exit;
 			$mail["body_original"] = preg_replace('/(<br>)+$/', '', $mail["body_original"]);
 		} else {
 			$mail["body_original"] = trim($mail["body_original"],"\r\n");
