@@ -164,6 +164,7 @@ class messagesAPI extends CRUDAPI {
 				if(!strlen(trim($p->nodeValue))){ $dump['nodeValue'] = $p->nodeValue; }
 				if(!strlen(trim($p->textContent))){ $dump['textContent'] = $p->textContent; }
 				var_dump($dump);
+				var_dump($p);
 				if(!strlen(trim($p->innertext)) && !strlen(trim($p->nodeValue))){ $p->parentNode->removeChild($p); }
 			}
 			exit;
