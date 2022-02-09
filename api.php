@@ -152,6 +152,7 @@ class messagesAPI extends CRUDAPI {
 					$node = $a->cloneNode();
 					$node->setAttribute('href', $src['new']);
 					$node->setAttribute('target', '_blank');
+					$node->setAttribute('data-plugin', 'files');
 					$node->setAttribute('data-id', $files[$key]);
 					$image->parentNode->replaceChild($node,$image);
 					$node->appendChild($image);
