@@ -118,13 +118,14 @@ class messagesAPI extends CRUDAPI {
     }
   }
 
-	protected function imgTag($message){
-		$files = explode(';',trim($message['attachments'],';'));
+	protected function imgTag($mail){
+		var_dump($mail);
+		$files = explode(';',trim($mail['attachments'],';'));
 		$body['original'] = new DOMDocument();
 		$body['unquoted'] = new DOMDocument();
 		libxml_use_internal_errors(true);
-		$body['original']->loadHTML($message['body_original']);
-		$body['unquoted']->loadHTML($message['body_unquoted']);
+		$body['original']->loadHTML($mail['body_original']);
+		$body['unquoted']->loadHTML($mail['body_unquoted']);
 		libxml_use_internal_errors(false);
 		$images = $body['original']->getElementsByTagName('img');
 		foreach($images as $key => $image){
@@ -136,7 +137,7 @@ class messagesAPI extends CRUDAPI {
 			// $image->setAttribute('data-src', $old_src);
 	    // if(isset($this->Settings['plugins']['files']['status']) && $this->Settings['plugins']['files']['status']){} else {}
 		}
-		return $message;
+		return $mail;
 	}
 
 	protected function isHTML($string){
@@ -160,13 +161,13 @@ class messagesAPI extends CRUDAPI {
 			$mail["body_unquoted"] = $this->toText($mail["body_unquoted"]);
 		}
 		if($this->isHTML($mail["body_original"])){
-			$this->imgTag($message);
+			$mail = $this->imgTag($mail);
 			$mail["body_original"] = preg_replace('/(<br>)+$/', '', $mail["body_original"]);
 		} else {
 			$mail["body_original"] = trim($mail["body_original"],"\r\n");
 		}
 		if($this->isHTML($mail["body_unquoted"])){
-			$this->imgTag($message);
+			$mail = $this->imgTag($message);
 			$mail["body_unquoted"] = preg_replace('/(<br>)+$/', '', $mail["body_unquoted"]);
 		} else {
 			$mail["body_unquoted"] = trim($mail["body_unquoted"],"\r\n");
