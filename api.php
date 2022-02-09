@@ -136,20 +136,20 @@ class messagesAPI extends CRUDAPI {
 			$document->loadHTML($this->convertHTMLSymbols($html));
 			libxml_use_internal_errors(false);
 			$images = $document->getElementsByTagName('img');
-			foreach($images as $key => $image){
-				$a = $document->createElement('a');
-				$src['old'] = $image->getAttribute('src');
-				$src['new'] = 'plugins/messages/dist/img/image-not-found.png';
-				if(isset($this->Settings['plugins']['files']['status']) && $this->Settings['plugins']['files']['status']){
-					$file = $this->Helper->files->cache($files[$key]);
-					if($file){ $src['new'] = $file; }
-				}
-				$image->setAttribute('src', $src['new']);
-				$image->setAttribute('data-src', $src['old']);
-				$image->addStyle('max-width:', '500px;');
-				$image->parentNode->replaceChild($a,$image);
-				$a->appendChild($image);
-			}
+			// foreach($images as $key => $image){
+			// 	$a = $document->createElement('a');
+			// 	$src['old'] = $image->getAttribute('src');
+			// 	$src['new'] = 'plugins/messages/dist/img/image-not-found.png';
+			// 	if(isset($this->Settings['plugins']['files']['status']) && $this->Settings['plugins']['files']['status']){
+			// 		$file = $this->Helper->files->cache($files[$key]);
+			// 		if($file){ $src['new'] = $file; }
+			// 	}
+			// 	$image->setAttribute('src', $src['new']);
+			// 	$image->setAttribute('data-src', $src['old']);
+			// 	$image->addStyle('max-width:', '500px;');
+			// 	$image->parentNode->replaceChild($a,$image);
+			// 	$a->appendChild($image);
+			// }
 			// return $document->saveHTML();
 			return $html;
 		} else { return $html; }
