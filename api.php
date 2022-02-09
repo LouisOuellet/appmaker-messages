@@ -136,7 +136,7 @@ class messagesAPI extends CRUDAPI {
 			$document->loadHTML($this->convertHTMLSymbols($html));
 			libxml_use_internal_errors(false);
 			$images = $document->getElementsByTagName('img');
-			$a = $document->createElement('a');
+			// $a = $document->createElement('a');
 			foreach($images as $key => $image){
 				$src['old'] = $image->getAttribute('src');
 				$src['new'] = 'plugins/messages/dist/img/image-not-found.png';
