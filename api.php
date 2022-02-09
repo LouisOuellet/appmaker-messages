@@ -150,13 +150,13 @@ class messagesAPI extends CRUDAPI {
 			$mail["body_unquoted"] = $this->toText($mail["body_unquoted"]);
 		}
 		if($this->isHTML($mail["body_original"])){
-			$mail['body_original'] = $this->fixIMG($mail['body_original'],$files);
+			// $mail['body_original'] = $this->fixIMG($mail['body_original'],$files);
 			$mail["body_original"] = preg_replace('/(<br>)+$/', '', $mail["body_original"]);
 		} else {
 			$mail["body_original"] = trim($mail["body_original"],"\r\n");
 		}
 		if($this->isHTML($mail["body_unquoted"])){
-			$mail['body_unquoted'] = $this->fixIMG($mail['body_unquoted'],$files);
+			// $mail['body_unquoted'] = $this->fixIMG($mail['body_unquoted'],$files);
 			$mail["body_unquoted"] = preg_replace('/(<br>)+$/', '', $mail["body_unquoted"]);
 		} else {
 			$mail["body_unquoted"] = trim($mail["body_unquoted"],"\r\n");
@@ -180,7 +180,7 @@ class messagesAPI extends CRUDAPI {
 	}
 
   protected function save($mail){
-		// $mail = $this->obtimize($mail);
+		$mail = $this->obtimize($mail);
     $query = $this->Auth->query('INSERT INTO `messages` (
       `created`,
       `modified`,
