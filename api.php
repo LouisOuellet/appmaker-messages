@@ -118,21 +118,32 @@ class messagesAPI extends CRUDAPI {
     }
   }
 
+	protected function convertHTMLSymbols($str_in){
+		$list = get_html_translation_table(HTML_ENTITIES);
+		unset($list['"']);
+		unset($list['<']);
+		unset($list['>']);
+		unset($list['&']);
+		$search = array_keys($list);
+		$values = array_values($list);
+		return str_replace($search, $values, $str_in);
+	}
+
 	protected function fixIMG($html,$files){
 		if(!empty($files)){
 			$document = new DOMDocument();
 			libxml_use_internal_errors(true);
-			$document->loadHTML($html);
+			$document->loadHTML($this->convertHTMLSymbols($html));
 			libxml_use_internal_errors(false);
 			$images = $document->getElementsByTagName('img');
 			foreach($images as $key => $image){
 				$a = $document->createElement('a');
 				$src['old'] = $image->getAttribute('src');
 				$src['new'] = 'plugins/messages/dist/img/image-not-found.png';
-				// if(isset($this->Settings['plugins']['files']['status']) && $this->Settings['plugins']['files']['status']){
-				// 	$file = $this->Helper->files->cache($files[$key]);
-				// 	if($file){ $src['new'] = $file; }
-				// }
+				if(isset($this->Settings['plugins']['files']['status']) && $this->Settings['plugins']['files']['status']){
+					$file = $this->Helper->files->cache($files[$key]);
+					if($file){ $src['new'] = $file; }
+				}
 				$image->setAttribute('src', $src['new']);
 				$image->setAttribute('data-src', $src['old']);
 				$image->addStyle('max-width:', '500px;');
@@ -150,7 +161,7 @@ class messagesAPI extends CRUDAPI {
 			$mail["body_unquoted"] = $this->toText($mail["body_unquoted"]);
 		}
 		if($this->isHTML($mail["body_original"])){
-			// $mail['body_original'] = $this->fixIMG($mail['body_original'],$files);
+			$mail['body_original'] = $this->fixIMG($mail['body_original'],$files);
 			$mail["body_original"] = preg_replace('/(<br>)+$/', '', $mail["body_original"]);
 		} else {
 			$mail["body_original"] = trim($mail["body_original"],"\r\n");
