@@ -97,6 +97,7 @@ class messagesAPI extends CRUDAPI {
 							}
 		        }
 		        $message["attachments"] = trim($message["attachments"],';');
+						$this->imgTag($message);
 					}
 	        $message["created"] = date("Y-m-d H:i:s");
 	        $message["modified"] = date("Y-m-d H:i:s");
@@ -127,9 +128,13 @@ class messagesAPI extends CRUDAPI {
 		$body['unquoted']->loadHTML($message['body_unquoted']);
 		libxml_use_internal_errors(false);
 		$images = $body['original']->getElementsByTagName('img');
-		$elements = $dom->getElementsByTagName('foo');
-		foreach($images as $image){
-	    if(isset($this->Settings['plugins']['files']['status']) && $this->Settings['plugins']['files']['status']){} else {}
+		foreach($images as $key => $image){
+			var_dump($key);
+			// $src['old'] = $image->getAttribute('src');
+			// $src['new'] = 'image/products/newimage.jpg';
+			// $image->setAttribute('src', $new_src);
+			// $image->setAttribute('data-src', $old_src);
+	    // if(isset($this->Settings['plugins']['files']['status']) && $this->Settings['plugins']['files']['status']){} else {}
 		}
 	}
 
