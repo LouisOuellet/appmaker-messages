@@ -159,7 +159,7 @@ class messagesAPI extends CRUDAPI {
 			}
 			foreach($document->getElementsByTagName('p') as $key => $p){
 				// var_dump($p);
-				var_dump(strlen(trim($p->nodeValue)));
+				var_dump(strlen(trim(trim($p->nodeValue),' ')));
 				var_dump($p->nodeValue);
 				// $dump = [];
 				// if(!strlen(trim($p->innertext))){ $dump['innertext'] = $p->innertext; }
