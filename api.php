@@ -152,8 +152,8 @@ class messagesAPI extends CRUDAPI {
 					$node = $a->cloneNode();
 					$node->setAttribute('href', $src['new']);
 					$node->setAttribute('target', '_blank');
-					// $image->parentNode->replaceChild($node,$image);
-					// $node->appendChild($image);
+					$image->parentNode->replaceChild($node,$image);
+					$node->appendChild($image);
 					var_dump([
 						"src" => $src,
 						"style" => [
