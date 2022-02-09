@@ -129,10 +129,10 @@ class messagesAPI extends CRUDAPI {
 				$a = $document->createElement('a');
 				$src['old'] = $image->getAttribute('src');
 				$src['new'] = 'plugins/messages/dist/img/image-not-found.png';
-				if(isset($this->Settings['plugins']['files']['status']) && $this->Settings['plugins']['files']['status']){
-					$file = $this->Helper->files->cache($files[$key]);
-					if($file){ $src['new'] = $file; }
-				}
+				// if(isset($this->Settings['plugins']['files']['status']) && $this->Settings['plugins']['files']['status']){
+				// 	$file = $this->Helper->files->cache($files[$key]);
+				// 	if($file){ $src['new'] = $file; }
+				// }
 				$image->setAttribute('src', $src['new']);
 				$image->setAttribute('data-src', $src['old']);
 				$image->addStyle('max-width:', '500px;');
