@@ -147,7 +147,7 @@ class messagesAPI extends CRUDAPI {
 					}
 					$image->setAttribute('src', $src['new']);
 					$image->setAttribute('data-src', $src['old']);
-					// $image->addStyle('max-width:', '500px;');
+					$image->addStyle('max-width:', '500px;');
 					// $node = $a->cloneNode();
 					// $image->parentNode->replaceChild($node,$image);
 					// $node->appendChild($image);
