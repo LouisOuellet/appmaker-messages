@@ -97,7 +97,6 @@ class messagesAPI extends CRUDAPI {
 							}
 		        }
 		        $message["attachments"] = trim($message["attachments"],';');
-						$this->imgTag($message);
 					}
 	        $message["created"] = date("Y-m-d H:i:s");
 	        $message["modified"] = date("Y-m-d H:i:s");
@@ -130,12 +129,14 @@ class messagesAPI extends CRUDAPI {
 		$images = $body['original']->getElementsByTagName('img');
 		foreach($images as $key => $image){
 			var_dump($key);
+			var_dump($image);
 			// $src['old'] = $image->getAttribute('src');
 			// $src['new'] = 'image/products/newimage.jpg';
 			// $image->setAttribute('src', $new_src);
 			// $image->setAttribute('data-src', $old_src);
 	    // if(isset($this->Settings['plugins']['files']['status']) && $this->Settings['plugins']['files']['status']){} else {}
 		}
+		return $message;
 	}
 
 	protected function isHTML($string){
@@ -159,11 +160,13 @@ class messagesAPI extends CRUDAPI {
 			$mail["body_unquoted"] = $this->toText($mail["body_unquoted"]);
 		}
 		if($this->isHTML($mail["body_original"])){
+			$this->imgTag($message);
 			$mail["body_original"] = preg_replace('/(<br>)+$/', '', $mail["body_original"]);
 		} else {
 			$mail["body_original"] = trim($mail["body_original"],"\r\n");
 		}
 		if($this->isHTML($mail["body_unquoted"])){
+			$this->imgTag($message);
 			$mail["body_unquoted"] = preg_replace('/(<br>)+$/', '', $mail["body_unquoted"]);
 		} else {
 			$mail["body_unquoted"] = trim($mail["body_unquoted"],"\r\n");
