@@ -118,24 +118,48 @@ class messagesAPI extends CRUDAPI {
     }
   }
 
-	protected function imgTag($mail){
-		var_dump($mail);
+	protected function fixIMG($html,$files){
+		if(!empty($files)){
+			$document = new DOMDocument();
+			libxml_use_internal_errors(true);
+			$document->loadHTML($html);
+			libxml_use_internal_errors(false);
+			$images = $document->getElementsByTagName('img');
+			foreach($images as $key => $image){
+				$a = $document->createElement('a');
+				$src['old'] = $image->getAttribute('src');
+				$src['new'] = 'plugins/messages/dist/img/image-not-found.png';
+				if(isset($this->Settings['plugins']['files']['status']) && $this->Settings['plugins']['files']['status']){
+					$file = $this->Helper->files->cache($files[$key]);
+					if($file){ $src['new'] = $file; }
+				}
+				$image->setAttribute('src', $src['new']);
+				$image->setAttribute('data-src', $src['old']);
+				$image->addStyle('max-width:', '500px;');
+				$image->parentNode->replaceChild($a,$image);
+				$a->appendChild($image);
+			}
+			return $document->saveHTML();
+		} else { return $html; }
+	}
+
+	protected function obtimize($mail){
 		$files = explode(';',trim($mail['attachments'],';'));
-		$body['original'] = new DOMDocument();
-		$body['unquoted'] = new DOMDocument();
-		libxml_use_internal_errors(true);
-		$body['original']->loadHTML($mail['body_original']);
-		$body['unquoted']->loadHTML($mail['body_unquoted']);
-		libxml_use_internal_errors(false);
-		$images = $body['original']->getElementsByTagName('img');
-		foreach($images as $key => $image){
-			var_dump($key);
-			var_dump($image);
-			// $src['old'] = $image->getAttribute('src');
-			// $src['new'] = 'image/products/newimage.jpg';
-			// $image->setAttribute('src', $new_src);
-			// $image->setAttribute('data-src', $old_src);
-	    // if(isset($this->Settings['plugins']['files']['status']) && $this->Settings['plugins']['files']['status']){} else {}
+		if(isset($this->Settings['plugins']['messages']['settings']['stipHTML']) && $this->Settings['plugins']['messages']['settings']['stipHTML']){
+			$mail["body_original"] = $this->toText($mail["body_original"]);
+			$mail["body_unquoted"] = $this->toText($mail["body_unquoted"]);
+		}
+		if($this->isHTML($mail["body_original"])){
+			$mail['body_original'] = $this->fixIMG($mail['body_original'],$files);
+			$mail["body_original"] = preg_replace('/(<br>)+$/', '', $mail["body_original"]);
+		} else {
+			$mail["body_original"] = trim($mail["body_original"],"\r\n");
+		}
+		if($this->isHTML($mail["body_unquoted"])){
+			$mail['body_unquoted'] = $this->fixIMG($mail['body_unquoted'],$files);
+			$mail["body_unquoted"] = preg_replace('/(<br>)+$/', '', $mail["body_unquoted"]);
+		} else {
+			$mail["body_unquoted"] = trim($mail["body_unquoted"],"\r\n");
 		}
 		return $mail;
 	}
@@ -156,22 +180,7 @@ class messagesAPI extends CRUDAPI {
 	}
 
   protected function save($mail){
-		if(isset($this->Settings['plugins']['messages']['settings']['stipHTML']) && $this->Settings['plugins']['messages']['settings']['stipHTML']){
-			$mail["body_original"] = $this->toText($mail["body_original"]);
-			$mail["body_unquoted"] = $this->toText($mail["body_unquoted"]);
-		}
-		if($this->isHTML($mail["body_original"])){
-			$mail = $this->imgTag($mail);
-			$mail["body_original"] = preg_replace('/(<br>)+$/', '', $mail["body_original"]);
-		} else {
-			$mail["body_original"] = trim($mail["body_original"],"\r\n");
-		}
-		if($this->isHTML($mail["body_unquoted"])){
-			$mail = $this->imgTag($message);
-			$mail["body_unquoted"] = preg_replace('/(<br>)+$/', '', $mail["body_unquoted"]);
-		} else {
-			$mail["body_unquoted"] = trim($mail["body_unquoted"],"\r\n");
-		}
+		$mail = $this->obtimize($mail);
     $query = $this->Auth->query('INSERT INTO `messages` (
       `created`,
       `modified`,
