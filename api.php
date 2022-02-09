@@ -140,7 +140,7 @@ class messagesAPI extends CRUDAPI {
 			foreach($images as $key => $image){
 				$src['old'] = $image->getAttribute('src');
 				$src['new'] = 'plugins/messages/dist/img/image-not-found.png';
-				if(str_contains($src['old'], 'cid:')){
+				if(strpos($src['old'], 'cid:') !== false){
 					var_dump($image);
 					if(isset($this->Settings['plugins']['files']['status']) && $this->Settings['plugins']['files']['status']){
 						$file = $this->Helper->files->cache($files[$key]);
