@@ -133,7 +133,7 @@ class messagesAPI extends CRUDAPI {
 		if(!empty($files)){
 			$document = new DOMDocument();
 			libxml_use_internal_errors(true);
-			$document->loadHTML($this->convertHTMLSymbols($html));
+			$document->loadHTML($this->convertHTMLSymbols(str_replace(["\r\n","\n","\r"],'<br>',$html)));
 			libxml_use_internal_errors(false);
 			$a = $document->createElement('a');
 			foreach($document->getElementsByTagName('img') as $key => $image){
@@ -158,18 +158,8 @@ class messagesAPI extends CRUDAPI {
 				}
 			}
 			foreach($document->getElementsByTagName('p') as $key => $p){
-				// var_dump($p);
-				// $length = strlen(trim(trim(htmlentities($p->nodeValue)),'&nbsp;'));
-				// $value = trim(trim(htmlentities($p->nodeValue)),'&nbsp;');
-				// echo '['.$value.'] length('.$length.')'."\n";
-				// $dump = [];
-				// if(!strlen(trim($p->innertext))){ $dump['innertext'] = $p->innertext; }
-				// if(!strlen(trim($p->nodeValue))){ $dump['nodeValue'] = $p->nodeValue; }
-				// if(!strlen(trim($p->textContent))){ $dump['textContent'] = $p->textContent; }
-				// var_dump($dump);
 				if(!strlen(trim(trim(htmlentities($p->nodeValue)),'&nbsp;'))){ $p->parentNode->removeChild($p); }
 			}
-			// exit;
 			return $document->saveHTML();
 		} else { return $html; }
 	}
