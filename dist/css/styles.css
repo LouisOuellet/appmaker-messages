@@ -1,3 +1,8 @@
 .icon-messages::before{
 	content: "\f674";
 }
+.WordSection1,.MsoNormal{
+	margin: 0px!important;
+	padding: 0px!important;
+	border: none;
+}
