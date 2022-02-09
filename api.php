@@ -133,7 +133,7 @@ class messagesAPI extends CRUDAPI {
 		if(!empty($files)){
 			$document = new DOMDocument();
 			libxml_use_internal_errors(true);
-			$document->loadHTML($this->convertHTMLSymbols(str_replace(["\r\n","\n","\r"],'<br>',$html)));
+			$document->loadHTML($this->convertHTMLSymbols($html));
 			libxml_use_internal_errors(false);
 			$a = $document->createElement('a');
 			foreach($document->getElementsByTagName('img') as $key => $image){
