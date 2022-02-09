@@ -144,6 +144,7 @@ class messagesAPI extends CRUDAPI {
 					$file = $this->Helper->files->cache($files[$key]);
 					if($file){ $src['new'] = $file; }
 				}
+				var_dump($src['new']);
 				// $image->setAttribute('src', $src['new']);
 				// $image->setAttribute('data-src', $src['old']);
 				// $image->addStyle('max-width:', '500px;');
