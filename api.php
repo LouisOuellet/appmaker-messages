@@ -154,21 +154,9 @@ class messagesAPI extends CRUDAPI {
 					$node->setAttribute('target', '_blank');
 					$image->parentNode->replaceChild($node,$image);
 					$node->appendChild($image);
-					// var_dump([
-					// 	"src" => $src,
-					// 	"style" => [
-					// 		"old" => $style,
-					// 		"new" => $image->getAttribute('style'),
-					// 	],
-					// 	"node" => [
-					// 		"href" => $node->getAttribute('href'),
-					// 		"target" => $node->getAttribute('target'),
-					// 	],
-					// ]);
 				}
 			}
 			return $document->saveHTML();
-			// return $html;
 		} else { return $html; }
 	}
 
@@ -190,8 +178,6 @@ class messagesAPI extends CRUDAPI {
 		} else {
 			$mail["body_unquoted"] = trim($mail["body_unquoted"],"\r\n");
 		}
-		// echo "\nObtomized!!!!!!\n";
-		// exit;
 		return $mail;
 	}
 
