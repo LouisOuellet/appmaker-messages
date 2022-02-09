@@ -180,7 +180,7 @@ class messagesAPI extends CRUDAPI {
 	}
 
   protected function save($mail){
-		$mail = $this->obtimize($mail);
+		// $mail = $this->obtimize($mail);
     $query = $this->Auth->query('INSERT INTO `messages` (
       `created`,
       `modified`,
