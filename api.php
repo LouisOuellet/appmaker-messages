@@ -154,21 +154,21 @@ class messagesAPI extends CRUDAPI {
 					$node->setAttribute('target', '_blank');
 					$image->parentNode->replaceChild($node,$image);
 					$node->appendChild($image);
-					var_dump([
-						"src" => $src,
-						"style" => [
-							"old" => $style,
-							"new" => $image->getAttribute('style'),
-						],
-						"node" => [
-							"href" => $node->getAttribute('href'),
-							"target" => $node->getAttribute('target'),
-						],
-					]);
+					// var_dump([
+					// 	"src" => $src,
+					// 	"style" => [
+					// 		"old" => $style,
+					// 		"new" => $image->getAttribute('style'),
+					// 	],
+					// 	"node" => [
+					// 		"href" => $node->getAttribute('href'),
+					// 		"target" => $node->getAttribute('target'),
+					// 	],
+					// ]);
 				}
 			}
-			// return $document->saveHTML();
-			return $html;
+			return $document->saveHTML();
+			// return $html;
 		} else { return $html; }
 	}
 
@@ -180,18 +180,18 @@ class messagesAPI extends CRUDAPI {
 		}
 		if($this->isHTML($mail["body_original"])){
 			$mail['body_original'] = $this->fixIMG($mail['body_original'],$files);
-			echo "\nObtomized!!!!!!\n";
-			exit;
 			$mail["body_original"] = preg_replace('/(<br>)+$/', '', $mail["body_original"]);
 		} else {
 			$mail["body_original"] = trim($mail["body_original"],"\r\n");
 		}
 		if($this->isHTML($mail["body_unquoted"])){
-			// $mail['body_unquoted'] = $this->fixIMG($mail['body_unquoted'],$files);
+			$mail['body_unquoted'] = $this->fixIMG($mail['body_unquoted'],$files);
 			$mail["body_unquoted"] = preg_replace('/(<br>)+$/', '', $mail["body_unquoted"]);
 		} else {
 			$mail["body_unquoted"] = trim($mail["body_unquoted"],"\r\n");
 		}
+		// echo "\nObtomized!!!!!!\n";
+		// exit;
 		return $mail;
 	}
 
