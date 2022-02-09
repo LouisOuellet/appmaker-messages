@@ -132,9 +132,9 @@ class messagesAPI extends CRUDAPI {
 	protected function fixIMG($html,$files){
 		if(!empty($files)){
 			$document = new DOMDocument();
-			libxml_use_internal_errors(true);
+			// libxml_use_internal_errors(true);
 			$document->loadHTML($this->convertHTMLSymbols($html));
-			libxml_use_internal_errors(false);
+			// libxml_use_internal_errors(false);
 			$images = $document->getElementsByTagName('img');
 			foreach($images as $key => $image){
 				$a = $document->createElement('a');
