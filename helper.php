@@ -5,8 +5,12 @@ class messagesHelper extends Helper {
     if(isset($relations['messages'])){
 			foreach($relations['messages'] as $id => $message){
 				$relations['messages'][$id]['meta'] = $this->URL->parse($message['meta']);
-				$relations['messages'][$id]['body_original'] = str_replace(["\r\n","\n","\r"],'<br>',$message['body_original']);
-				$relations['messages'][$id]['body_unquoted'] = str_replace(["\r\n","\n","\r"],'<br>',$message['body_unquoted']);
+				if(!$this->isHTML($relations['messages'][$id]['body_original'])){
+					$relations['messages'][$id]['body_original'] = str_replace(["\r\n","\n","\r"],'<br>',$message['body_original']);
+				}
+				if(!$this->isHTML($relations['messages'][$id]['body_unquoted'])){
+					$relations['messages'][$id]['body_unquoted'] = str_replace(["\r\n","\n","\r"],'<br>',$message['body_unquoted']);
+				}
 			}
     }
     return $relations;
@@ -17,9 +21,13 @@ class messagesHelper extends Helper {
 			if(isset($result['meta'])){
 				$result['meta'] = $this->URL->parse($result['meta']);
 			}
-			if(isset($result['body_original'])){ $result['body_original'] = str_replace(["\r\n","\n","\r"],'<br>',$result['body_original']); }
-			if(isset($result['body_unquoted'])){ $result['body_unquoted'] = str_replace(["\r\n","\n","\r"],'<br>',$result['body_unquoted']); }
+			if(isset($result['body_original']) && !$this->isHTML($result['body_original'])){ $result['body_original'] = str_replace(["\r\n","\n","\r"],'<br>',$result['body_original']); }
+			if(isset($result['body_unquoted']) && !$this->isHTML($result['body_unquoted'])){ $result['body_unquoted'] = str_replace(["\r\n","\n","\r"],'<br>',$result['body_unquoted']); }
 		}
     return $result;
   }
+
+	protected function isHTML($string){
+	 return $string != strip_tags($string) ? true:false;
+	}
 }
